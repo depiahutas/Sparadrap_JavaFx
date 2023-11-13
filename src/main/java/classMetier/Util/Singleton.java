@@ -7,7 +7,7 @@ import java.sql.*;
 import java.util.Properties;
 
 public class Singleton {
-    private static final String PATHCONF = ".\\src\\ressources\\sql\\conf.properties";
+    private static final String PATHCONF = ".\\src\\main\\java\\sql\\conf.properties";
     private static final Properties props = new Properties();
     private static Connection connection;
 
@@ -23,6 +23,7 @@ public class Singleton {
             props.setProperty("password", props.getProperty("jdbc.password"));
 
             connection = DriverManager.getConnection(props.getProperty("jdbc.url"),props);
+
             System.out.println("Connection établie");
 
         } catch (HeadlessException | IOException | SQLException | ClassNotFoundException e)

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public abstract class DAO<T> {
 
-    protected Connection connection; // = Singleton.getInstanceDB();
+    protected Connection connection = Singleton.getInstanceDB();
 
     public abstract boolean create(T obj) throws SQLException;
 

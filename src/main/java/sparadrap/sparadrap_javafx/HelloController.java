@@ -1,5 +1,6 @@
 package sparadrap.sparadrap_javafx;
 
+import DAO.gestion.LoginDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -34,6 +35,8 @@ public class HelloController {
     @FXML
     private TextField username;
 
+    private LoginDAO loginDAO = new LoginDAO();
+
     public  void close(){
         System.exit(0);
     }
@@ -53,7 +56,7 @@ public class HelloController {
 
 
         }
-        else if (username.getText().equals("toto") && password.getText().equals("toto")) {
+        else if (loginDAO.loginAdmin(password.getText(),username.getText())) {
 
             login_btn.getScene().getWindow().hide();
             Parent root = FXMLLoader.load(getClass().getResource("dashboard.fxml"));
@@ -81,6 +84,13 @@ public class HelloController {
 
             stage.setScene(scene);
             stage.show();
+        }
+        else {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("wrong username/password");
+            alert.showAndWait();
         }
     }
 

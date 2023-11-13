@@ -72,4 +72,28 @@ public class CategorieMedicamentDAO extends DAO<CategorieMedicament> {
             throw new RuntimeException(e);
         }
     }
+
+    public CategorieMedicament findLibelle(String libelle) {
+
+        StringBuilder sqlFindCatMedic = new StringBuilder();
+        sqlFindCatMedic.append("select * from categorie_medic where cat_libelle= ? ");
+
+        try (PreparedStatement preparedStatement =
+                     this.connection.prepareStatement(sqlFindCatMedic.toString())) {
+
+            preparedStatement.setString(1,libelle);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+
+                return new CategorieMedicament(resultSet.getInt("cat_id"),
+                        resultSet.getString("cat_libelle")
+                );
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
 }
