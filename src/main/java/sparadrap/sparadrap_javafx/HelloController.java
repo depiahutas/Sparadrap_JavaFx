@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
@@ -33,11 +34,13 @@ public class HelloController {
     @FXML
     private TextField username;
 
-    @FXML
-    void close(MouseEvent event) {
+    public  void close(){
+        System.exit(0);
     }
 
     Alert alert;
+    private double x = 0;
+    private double y = 0;
 
     public void checkLogin() throws IOException {
 
@@ -56,6 +59,25 @@ public class HelloController {
             Parent root = FXMLLoader.load(getClass().getResource("dashboard.fxml"));
             Stage stage = new Stage();
             Scene scene = new Scene(root);
+
+
+            root.setOnMousePressed((mouseEvent -> {
+                x = mouseEvent.getSceneX();
+                y = mouseEvent.getY();
+            }));
+
+            root.setOnMouseDragged((mouseEvent -> {
+                stage.setX(mouseEvent.getScreenX() - x);
+                stage.setY(mouseEvent.getScreenY() - y);
+                stage.setOpacity(.8);
+            }));
+
+            root.setOnMouseReleased((mouseEvent -> {
+                stage.setOpacity(1);
+            }));
+
+
+            stage.initStyle(StageStyle.TRANSPARENT);
 
             stage.setScene(scene);
             stage.show();

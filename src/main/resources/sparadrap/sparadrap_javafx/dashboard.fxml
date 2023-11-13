@@ -14,16 +14,15 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="646.0" prefWidth="1030.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="646.0" prefWidth="1030.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sparadrap.sparadrap_javafx.DashboardController">
    <children>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+      <AnchorPane fx:id="main_form" prefHeight="200.0" prefWidth="200.0">
          <children>
             <BorderPane prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <top>
                   <AnchorPane prefHeight="24.0" prefWidth="586.0" styleClass="top-form" stylesheets="@DashboardDesign.css" BorderPane.alignment="CENTER">
                      <children>
-                        <Button layoutX="994.0" layoutY="-6.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="25.0" styleClass="close" stylesheets="@DashboardDesign.css" text="X">
+                        <Button fx:id="close" layoutX="994.0" layoutY="-6.0" mnemonicParsing="false" onAction="#close" prefHeight="30.0" prefWidth="25.0" styleClass="close" stylesheets="@DashboardDesign.css" text="X">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
@@ -33,7 +32,7 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Label>
-                        <Button layoutX="963.0" layoutY="-6.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="31.0" styleClass="minimize" stylesheets="@DashboardDesign.css" text="-">
+                        <Button fx:id="minimize" layoutX="963.0" layoutY="-6.0" mnemonicParsing="false" onAction="#minimize" prefHeight="30.0" prefWidth="31.0" styleClass="minimize" stylesheets="@DashboardDesign.css" text="-">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
@@ -44,28 +43,28 @@
                <left>
                   <AnchorPane prefHeight="366.0" prefWidth="202.0" styleClass="nav-form" stylesheets="@DashboardDesign.css" BorderPane.alignment="CENTER">
                      <children>
-                        <Label layoutX="61.0" layoutY="161.0" text="Welcome">
+                        <Label layoutX="71.0" layoutY="171.0" text="Welcome">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <Line endX="99.0" layoutX="101.0" layoutY="188.0" startX="-100.0" />
-                        <Button layoutX="12.0" layoutY="219.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="174.0" styleClass="nav-btn" stylesheets="@DashboardDesign.css" text="DashBoard" />
-                        <Button layoutX="12.0" layoutY="246.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="174.0" styleClass="nav-btn" stylesheets="@DashboardDesign.css" text="Add Medicines" />
-                        <Button layoutX="12.0" layoutY="272.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="174.0" styleClass="nav-btn" stylesheets="@DashboardDesign.css" text="Purchase Medicines" />
-                        <Button layoutX="14.0" layoutY="581.0" mnemonicParsing="false" stylesheets="@DashboardDesign.css" text="logout">
+                        <Button fx:id="dashboard_btn" layoutX="22.0" layoutY="229.0" mnemonicParsing="false" onAction="#switch_form" prefHeight="25.0" prefWidth="174.0" styleClass="nav-btn" stylesheets="@DashboardDesign.css" text="DashBoard" />
+                        <Button fx:id="addMeds_btn" layoutX="22.0" layoutY="256.0" mnemonicParsing="false" onAction="#switch_form" prefHeight="25.0" prefWidth="174.0" styleClass="nav-btn" stylesheets="@DashboardDesign.css" text="Add Medicines" />
+                        <Button fx:id="purchase_btn" layoutX="22.0" layoutY="282.0" mnemonicParsing="false" onAction="#switch_form" prefHeight="25.0" prefWidth="174.0" styleClass="nav-btn" stylesheets="@DashboardDesign.css" text="Purchase Medicines" />
+                        <Button fx:id="logout" layoutX="24.0" layoutY="591.0" mnemonicParsing="false" onAction="#logout" stylesheets="@DashboardDesign.css" text="logout">
                            <styleClass>
                               <String fx:value="logout-btn" />
                               <String fx:value="shadow" />
                            </styleClass>
                         </Button>
+                        <Line endX="99.0" layoutX="101.0" layoutY="199.0" startX="-100.0" />
                      </children>
                   </AnchorPane>
                </left>
                <center>
                   <AnchorPane prefHeight="622.0" prefWidth="819.0" BorderPane.alignment="CENTER">
                      <children>
-                        <AnchorPane prefHeight="622.0" prefWidth="829.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="dashboard_form" layoutX="-2.0" prefHeight="622.0" prefWidth="830.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="17.0" layoutY="14.0" prefHeight="331.0" prefWidth="797.0" stylesheets="@DashboardDesign.css">
                                  <children>
@@ -83,7 +82,7 @@
                               </AnchorPane>
                               <AnchorPane layoutX="18.0" layoutY="408.0" prefHeight="200.0" prefWidth="796.0">
                                  <children>
-                                    <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="173.0" prefWidth="234.0" styleClass="nav-form" stylesheets="@DashboardDesign.css">
+                                    <AnchorPane fx:id="dashboard_customer" layoutX="14.0" layoutY="14.0" prefHeight="173.0" prefWidth="234.0" styleClass="nav-form" stylesheets="@DashboardDesign.css">
                                        <children>
                                           <Label layoutX="57.0" layoutY="124.0" prefHeight="35.0" prefWidth="121.0" text="Customers" textFill="WHITE">
                                              <font>
@@ -92,7 +91,7 @@
                                           </Label>
                                        </children>
                                     </AnchorPane>
-                                    <AnchorPane layoutX="272.0" layoutY="14.0" prefHeight="173.0" prefWidth="234.0" styleClass="nav-form" stylesheets="@DashboardDesign.css">
+                                    <AnchorPane fx:id="dashboard_medicine" layoutX="272.0" layoutY="14.0" prefHeight="173.0" prefWidth="234.0" styleClass="nav-form" stylesheets="@DashboardDesign.css">
                                        <children>
                                           <Label layoutX="85.0" layoutY="124.0" prefHeight="35.0" prefWidth="65.0" text="Meds" textFill="WHITE">
                                              <font>
@@ -101,7 +100,7 @@
                                           </Label>
                                        </children>
                                     </AnchorPane>
-                                    <AnchorPane layoutX="542.0" layoutY="14.0" prefHeight="173.0" prefWidth="234.0" styleClass="nav-form" stylesheets="@DashboardDesign.css">
+                                    <AnchorPane fx:id="dashboard_others" layoutX="542.0" layoutY="14.0" prefHeight="173.0" prefWidth="234.0" styleClass="nav-form" stylesheets="@DashboardDesign.css">
                                        <children>
                                           <Label layoutX="84.0" layoutY="124.0" prefHeight="35.0" prefWidth="76.0" text="Others" textFill="WHITE">
                                              <font>
@@ -114,7 +113,7 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <AnchorPane layoutX="109.0" layoutY="60.0" prefHeight="622.0" prefWidth="829.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="add_form" layoutX="109.0" layoutY="60.0" prefHeight="622.0" prefWidth="829.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="16.0" layoutY="14.0" prefHeight="240.0" prefWidth="801.0" stylesheets="@DashboardDesign.css" AnchorPane.bottomAnchor="368.0" AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="14.0">
                                  <styleClass>
@@ -132,20 +131,20 @@
                                     <ComboBox fx:id="add_type" layoutX="111.0" layoutY="156.0" prefWidth="150.0" promptText="choose..." styleClass="textfield" stylesheets="@DashboardDesign.css" />
                                     <Label layoutX="291.0" layoutY="48.0" text="Status :" />
                                     <ComboBox fx:id="add_status" layoutX="339.0" layoutY="44.0" prefWidth="150.0" promptText="choose..." styleClass="textfield" stylesheets="@DashboardDesign.css" />
-                                    <Button layoutX="537.0" layoutY="209.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="83.0" styleClass="add-btn" text="Import" />
+                                    <Button fx:id="add_btnImport" layoutX="537.0" layoutY="209.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="83.0" styleClass="add-btn" text="Import" />
                                     <AnchorPane layoutX="518.0" layoutY="13.0" prefHeight="180.0" prefWidth="120.0" stylesheets="@DashboardDesign.css">
                                        <styleClass>
                                           <String fx:value="whithe-bg" />
                                           <String fx:value="shadow" />
                                        </styleClass>
                                        <children>
-                                          <ImageView fitHeight="180.0" fitWidth="120.0" layoutX="1.0" pickOnBounds="true" preserveRatio="true" />
+                                          <ImageView fx:id="add_imgView" fitHeight="180.0" fitWidth="120.0" layoutX="1.0" pickOnBounds="true" preserveRatio="true" />
                                        </children>
                                     </AnchorPane>
-                                    <Button layoutX="668.0" layoutY="33.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="83.0" styleClass="add-btn" stylesheets="@DashboardDesign.css" text="Add" />
-                                    <Button layoutX="668.0" layoutY="82.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="83.0" styleClass="update-btn" stylesheets="@DashboardDesign.css" text="Update" />
-                                    <Button layoutX="668.0" layoutY="135.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="83.0" styleClass="delete-btn" stylesheets="@DashboardDesign.css" text="Delete" />
-                                    <Button layoutX="668.0" layoutY="184.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="83.0" styleClass="clear-btn" stylesheets="@DashboardDesign.css" text="Clear" />
+                                    <Button fx:id="add_btnAdd" layoutX="668.0" layoutY="33.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="83.0" styleClass="add-btn" stylesheets="@DashboardDesign.css" text="Add" />
+                                    <Button fx:id="add_btnUpdate" layoutX="668.0" layoutY="82.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="83.0" styleClass="update-btn" stylesheets="@DashboardDesign.css" text="Update" />
+                                    <Button fx:id="add_btnDelete" layoutX="668.0" layoutY="135.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="83.0" styleClass="delete-btn" stylesheets="@DashboardDesign.css" text="Delete" />
+                                    <Button fx:id="add_btnClear" layoutX="668.0" layoutY="184.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="83.0" styleClass="clear-btn" stylesheets="@DashboardDesign.css" text="Clear" />
                                     <Label layoutX="295.0" layoutY="92.0" text="Price :" />
                                     <TextField fx:id="add_price" layoutX="339.0" layoutY="87.0" promptText="0.0€" styleClass="textfield" stylesheets="@DashboardDesign.css" />
                                  </children>
@@ -156,16 +155,16 @@
                                     <String fx:value="shadow" />
                                  </styleClass>
                                  <children>
-                                    <TextField layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="226.0" promptText="Search" styleClass="search" stylesheets="@DashboardDesign.css" />
+                                    <TextField fx:id="add_search" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="226.0" promptText="Search" styleClass="search" stylesheets="@DashboardDesign.css" />
                                     <TableView layoutX="21.0" layoutY="117.0" prefHeight="200.0" prefWidth="760.0">
                                       <columns>
-                                        <TableColumn prefWidth="75.0" text="Medecine ID" />
-                                        <TableColumn prefWidth="137.0" text="Brand Name" />
-                                          <TableColumn prefWidth="173.0" text="Product Name" />
-                                          <TableColumn prefWidth="130.0" text="Type" />
-                                          <TableColumn prefWidth="90.0" text="Price (€)" />
-                                          <TableColumn prefWidth="71.0" text="Status" />
-                                          <TableColumn prefWidth="82.0" text="Date" />
+                                        <TableColumn fx:id="add_col_medicineID" prefWidth="75.0" text="Medecine ID" />
+                                        <TableColumn fx:id="add_col_brand" prefWidth="137.0" text="Brand Name" />
+                                          <TableColumn fx:id="add_col_product" prefWidth="173.0" text="Product Name" />
+                                          <TableColumn fx:id="add_col_type" prefWidth="130.0" text="Type" />
+                                          <TableColumn fx:id="add_col_price" prefWidth="90.0" text="Price (€)" />
+                                          <TableColumn fx:id="add_col_status" prefWidth="71.0" text="Status" />
+                                          <TableColumn fx:id="add_col_date" prefWidth="82.0" text="Date" />
                                       </columns>
                                     </TableView>
                                  </children>
