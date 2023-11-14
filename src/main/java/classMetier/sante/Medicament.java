@@ -112,4 +112,9 @@ public class Medicament {
     public void setCategorieMed(String categorieMed) {
         this.categorieMed = categorieMed;
     }
+
+    @Override
+    public String toString() {
+        return nom ;
+    }
 }

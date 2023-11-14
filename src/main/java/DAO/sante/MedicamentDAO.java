@@ -1,6 +1,7 @@
 package DAO.sante;
 
 import DAO.DAO;
+import classMetier.sante.CategorieMedicament;
 import classMetier.sante.Medicament;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MedicamentDAO extends DAO<Medicament> {
     @Override
@@ -243,6 +245,93 @@ public class MedicamentDAO extends DAO<Medicament> {
     }
 
 
+    public ObservableList<Medicament> selectMedsFromCat(CategorieMedicament cat){
+        ObservableList<Medicament> listData = FXCollections.observableArrayList();
+
+        CategorieMedicamentDAO categorieMedicamentDAO = new CategorieMedicamentDAO();
+
+        StringBuilder sqlMedicament = new StringBuilder();
+        sqlMedicament.append("select * from medicament ");
+        sqlMedicament.append("inner join categorie_medic on medic_categorie = cat_id ");
+        sqlMedicament.append("where cat_libelle = ? ");
 
 
+        try (PreparedStatement preparedStatement =
+                     this.connection.prepareStatement(sqlMedicament.toString())) {
+
+            preparedStatement.setString(1,cat.getLibelle());
+
+
+            ResultSet resultSet =preparedStatement.executeQuery();
+            while(resultSet.next()){
+                listData.add(new Medicament(resultSet.getInt("medic_id"),
+                                resultSet.getString("medic_nom"),
+                                resultSet.getFloat("medic_prix"),
+                                resultSet.getString("medic_dateMES"),
+                                resultSet.getInt("medic_qteStock"),
+                                categorieMedicamentDAO.find(resultSet.getInt("cat_id")),
+                                resultSet.getString("medic_image")
+                        )
+
+                );
+            }
+            return listData;
+
+        } catch (SQLException e) {
+            System.out.println("RelationWithDB erreur : " + e.getMessage() + " [SQL error code : " + e.getSQLState() + "]");
+        }
+
+        return listData;
+
+    }
+
+    public List<Integer> count() {
+        StringBuilder sqlCountMedicament = new StringBuilder();
+        ObservableList<Integer> listInt = FXCollections.observableArrayList();
+        sqlCountMedicament.append("select count(*) as nb_medic from Medicament ");
+        try (PreparedStatement preparedStatement =
+                     this.connection.prepareStatement(sqlCountMedicament.toString())) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                for (int i=1;i<resultSet.getInt("nb_medic");i++){
+                    listInt.add(i);
+                }
+            }
+            return listInt;
+
+        } catch (SQLException e) {
+            System.out.println("RelationWithDB erreur : " + e.getMessage() + " [SQL error code : " + e.getSQLState() + "]");
+        }
+        return listInt;
+    }
+
+    public ObservableList<Integer> SelectIDFromType(CategorieMedicament cat) {
+        ObservableList<Integer> listData = FXCollections.observableArrayList();
+
+        CategorieMedicamentDAO categorieMedicamentDAO = new CategorieMedicamentDAO();
+
+        StringBuilder sqlMedicament = new StringBuilder();
+        sqlMedicament.append("select * from medicament ");
+        sqlMedicament.append("inner join categorie_medic on medic_categorie = cat_id ");
+        sqlMedicament.append("where cat_libelle = ? ");
+
+
+        try (PreparedStatement preparedStatement =
+                     this.connection.prepareStatement(sqlMedicament.toString())) {
+
+            preparedStatement.setString(1,cat.getLibelle());
+
+
+            ResultSet resultSet =preparedStatement.executeQuery();
+            while(resultSet.next()){
+                listData.add(resultSet.getInt("medic_id"));
+            }
+            return listData;
+
+        } catch (SQLException e) {
+            System.out.println("RelationWithDB erreur : " + e.getMessage() + " [SQL error code : " + e.getSQLState() + "]");
+        }
+
+        return listData;
+    }
 }
