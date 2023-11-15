@@ -2,9 +2,13 @@ package sparadrap.sparadrap_javafx;
 
 
 
+import DAO.gestion.AchatDAO;
+import DAO.gestion.PanierDAO;
 import DAO.sante.CategorieMedicamentDAO;
 import DAO.sante.MedicamentDAO;
 import classMetier.Util.getData;
+import classMetier.gestion.Achat;
+import classMetier.gestion.Panier;
 import classMetier.sante.CategorieMedicament;
 import classMetier.sante.Medicament;
 import javafx.collections.FXCollections;
@@ -225,6 +229,10 @@ public class DashboardController  implements Initializable {
     private double x=0;
     private double y=0;
 
+
+
+    float prixTot=0;
+
     // déconnexion
     public void logout(){
 
@@ -320,6 +328,12 @@ public class DashboardController  implements Initializable {
             puchase_type.getSelectionModel().select(-1);
             purchaseMedicineShowList(null);
 
+            panier = new Panier(0,FXCollections.observableArrayList());
+            purchase_CartTableView.setItems(null);
+
+            prixTot=0;
+            purchase_tot.setText(String.valueOf(prixTot));
+
         }
     }
 
@@ -340,6 +354,8 @@ public class DashboardController  implements Initializable {
 
     CategorieMedicamentDAO categorieMedicamentDAO = new CategorieMedicamentDAO();
     private ObservableList<Medicament> addMedicineList;
+
+    Panier panier;
 
 
     // remplissage tableau gestion medicament
@@ -709,6 +725,7 @@ public class DashboardController  implements Initializable {
 
     }
 
+
     public void purchaseAddToCart(){
         Alert alert;
 
@@ -717,6 +734,87 @@ public class DashboardController  implements Initializable {
             alert.setHeaderText(null);
             alert.setContentText("Fill quantity field please");
             alert.showAndWait();
+        }
+        else {
+            Medicament medicament = purchase_tableView.getSelectionModel().getSelectedItem();
+            int num = purchase_tableView.getSelectionModel().getSelectedIndex();
+
+            if ((num - 1) < -1) {
+                return;
+            }
+
+            medicament.setQuantite(Integer.parseInt(purchase_Quantity.getText()));
+            medicament.setPrix(medicament.getQuantite()*medicament.getPrix());
+
+            prixTot+=medicament.getPrix();
+            purchase_tot.setText(String.valueOf(prixTot));
+
+            panier.getResumePanier().add(medicament);
+
+            purchase_CartCol_medicineID.setCellValueFactory(new PropertyValueFactory<>("id"));
+            purchase_CartCol_productName.setCellValueFactory(new PropertyValueFactory<>("nom"));
+            purchase_CartCol_type.setCellValueFactory(new PropertyValueFactory<>("categorieMed"));
+            purchase_CartCol_Qty.setCellValueFactory(new PropertyValueFactory<>("quantite"));
+            purchase_CartCol_price.setCellValueFactory(new PropertyValueFactory<>("prix"));
+            purchase_CartCol_date.setCellValueFactory(new PropertyValueFactory<>("dateMES"));
+
+            purchase_CartTableView.setItems(panier.getResumePanier());
+
+        }
+
+    }
+
+
+    public void purchaseRemoveFromCart() {
+        Alert alert;
+
+        if (purchase_CartTableView.getSelectionModel().getSelectedItem() == null) {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setContentText("Select a Meds in the cart");
+            alert.showAndWait();
+        } else {
+            Medicament medicament = purchase_CartTableView.getSelectionModel().getSelectedItem();
+            int num = purchase_CartTableView.getSelectionModel().getSelectedIndex();
+
+            prixTot-=medicament.getPrix();
+            purchase_tot.setText(String.valueOf(prixTot));
+
+            if ((num - 1) < -1) {
+                return;
+            }
+
+            panier.getResumePanier().remove(medicament);
+
+            purchase_CartCol_medicineID.setCellValueFactory(new PropertyValueFactory<>("id"));
+            purchase_CartCol_productName.setCellValueFactory(new PropertyValueFactory<>("nom"));
+            purchase_CartCol_type.setCellValueFactory(new PropertyValueFactory<>("categorieMed"));
+            purchase_CartCol_Qty.setCellValueFactory(new PropertyValueFactory<>("quantite"));
+            purchase_CartCol_price.setCellValueFactory(new PropertyValueFactory<>("prix"));
+            purchase_CartCol_date.setCellValueFactory(new PropertyValueFactory<>("dateMES"));
+
+            if (!panier.getResumePanier().isEmpty()){
+                purchase_CartTableView.setItems(panier.getResumePanier());
+            }
+            else {
+                purchase_CartTableView.setItems(null);
+            }
+
+        }
+    }
+
+
+AchatDAO achatDAO = new AchatDAO();
+    public void purchasePay(){
+        Alert alert;
+
+        if(panier.getResumePanier().isEmpty()){
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setContentText("Need at least one medicine in the cart");
+            alert.showAndWait();
+        }else{
+            achatDAO.create(new Achat(0,null,panier,prixTot,new Date().toString(),null));
         }
     }
 

@@ -4,11 +4,14 @@ import DAO.DAO;
 import DAO.sante.MedicamentDAO;
 import classMetier.gestion.Panier;
 import classMetier.sante.Medicament;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PanierDAO extends DAO<Panier> {
 
@@ -74,7 +77,7 @@ public class PanierDAO extends DAO<Panier> {
             preparedStatement.setInt(1, pID);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            ArrayList<Medicament> listMed = new ArrayList<Medicament>();
+            ObservableList<Medicament> listMed = FXCollections.observableArrayList();
 
 
             int i = 0;
