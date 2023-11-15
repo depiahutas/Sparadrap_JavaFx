@@ -2,6 +2,8 @@ package DAO.personne;
 
 import DAO.DAO;
 import classMetier.personne.Medecin;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -111,9 +113,9 @@ public class MedecinDAO extends DAO<Medecin> {
     }
 
     @Override
-    public ArrayList<Medecin> findAll() {
+    public ObservableList<Medecin> findAll() {
 
-        ArrayList<Medecin> listMedecin = new ArrayList<>();
+        ObservableList<Medecin> listMedecin = FXCollections.observableArrayList();
 
         personneDAO personneDAO = new personneDAO();
 

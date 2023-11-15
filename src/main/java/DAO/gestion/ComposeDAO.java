@@ -6,6 +6,7 @@ import DAO.sante.OrdonnanceDAO;
 import classMetier.gestion.Compose;
 import classMetier.sante.Medicament;
 import classMetier.sante.Ordonnance;
+import javafx.collections.ObservableList;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -69,7 +70,7 @@ public class ComposeDAO extends DAO<Compose> {
     }
 
     @Override
-    public ArrayList<Compose> findAll() {
+    public ObservableList<Compose> findAll() {
         return null;
     }
 }

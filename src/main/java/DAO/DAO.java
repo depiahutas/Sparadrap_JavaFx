@@ -1,6 +1,8 @@
 package DAO;
 
 import classMetier.Util.Singleton;
+import classMetier.personne.Client;
+import javafx.collections.ObservableList;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -18,5 +20,5 @@ public abstract class DAO<T> {
 
     public abstract T find(Integer pID);
 
-    public abstract ArrayList<T> findAll();
+    public abstract ObservableList<T> findAll();
 }

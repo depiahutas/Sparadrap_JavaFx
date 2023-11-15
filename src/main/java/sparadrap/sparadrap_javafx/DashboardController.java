@@ -3,14 +3,18 @@ package sparadrap.sparadrap_javafx;
 
 
 import DAO.gestion.AchatDAO;
-import DAO.gestion.PanierDAO;
+import DAO.personne.ClientDAO;
 import DAO.sante.CategorieMedicamentDAO;
 import DAO.sante.MedicamentDAO;
 import classMetier.Util.getData;
 import classMetier.gestion.Achat;
 import classMetier.gestion.Panier;
+import classMetier.personne.Client;
+import classMetier.personne.Medecin;
+import classMetier.personne.Personne;
 import classMetier.sante.CategorieMedicament;
 import classMetier.sante.Medicament;
+import classMetier.sante.Mutuelle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -224,6 +228,58 @@ public class DashboardController  implements Initializable {
     private TextField purchase_contains;
 
 
+    @FXML
+    private Button ListPatient_Btn_Create;
+
+    @FXML
+    private Button ListPatient_Btn_Delete;
+
+    @FXML
+    private Button ListPatient_Btn_Infos;
+
+    @FXML
+    private Button ListPatient_Btn_Purchase;
+
+    @FXML
+    private Button ListPatient_Btn_Update;
+
+    @FXML
+    private TextField ListPatient_Search;
+
+    @FXML
+    private TableView<Client> ListPatient_TableView;
+
+    @FXML
+    private Button ListPatient_btn;
+
+    @FXML
+    private TableColumn<?, ?> ListPatient_col_ID;
+
+    @FXML
+    private TableColumn<?, ?> ListPatient_col_Mail;
+
+    @FXML
+    private TableColumn<?, ?> ListPatient_col_Mutuelle;
+
+    @FXML
+    private TableColumn<?, ?> ListPatient_col_Nom;
+
+    @FXML
+    private TableColumn<?, ?> ListPatient_col_Prenom;
+
+    @FXML
+    private TableColumn<?, ?> ListPatient_col_Tel;
+
+    @FXML
+    private TableColumn<?, ?> ListPatient_col_Medecin;
+
+    @FXML
+    private AnchorPane ListPatient_form;
+
+    @FXML
+    private Button purchase_addBtn1;
+
+
 
 
     private double x=0;
@@ -290,20 +346,25 @@ public class DashboardController  implements Initializable {
             dashboard_form.setVisible(true);
             add_form.setVisible(false);
             purchase_from.setVisible(false);
+            ListPatient_form.setVisible(false);
+
 
             dashboard_btn.setStyle("-fx-background-color:linear-gradient(to bottom right, #41b170, #8a418c);");
             addMeds_btn.setStyle("-fx-background-color:TRANSPARENT");
             purchase_btn.setStyle("-fx-background-color:TRANSPARENT");
+            ListPatient_btn.setStyle("-fx-background-color:TRANSPARENT");
         }
         // affichage du form ajout Medicament + boutton mit en contraste
         if (event.getSource() == addMeds_btn){
             dashboard_form.setVisible(false);
             add_form.setVisible(true);
             purchase_from.setVisible(false);
+            ListPatient_form.setVisible(false);
 
             addMeds_btn.setStyle("-fx-background-color:linear-gradient(to bottom right, #41b170, #8a418c);");
             dashboard_btn.setStyle("-fx-background-color:TRANSPARENT");
             purchase_btn.setStyle("-fx-background-color:TRANSPARENT");
+            ListPatient_btn.setStyle("-fx-background-color:TRANSPARENT");
 
             addMedicineReset();
             add_type.getSelectionModel().select(0);
@@ -318,11 +379,13 @@ public class DashboardController  implements Initializable {
         if (event.getSource() == purchase_btn){
             dashboard_form.setVisible(false);
             add_form.setVisible(false);
+            ListPatient_form.setVisible(false);
             purchase_from.setVisible(true);
 
             purchase_btn.setStyle("-fx-background-color:linear-gradient(to bottom right, #41b170, #8a418c);");
             addMeds_btn.setStyle("-fx-background-color:TRANSPARENT");
             dashboard_btn.setStyle("-fx-background-color:TRANSPARENT");
+            ListPatient_btn.setStyle("-fx-background-color:TRANSPARENT");
 
             purchaseListType();
             puchase_type.getSelectionModel().select(-1);
@@ -334,6 +397,19 @@ public class DashboardController  implements Initializable {
             prixTot=0;
             purchase_tot.setText(String.valueOf(prixTot));
 
+        }
+        if (event.getSource() == ListPatient_btn){
+            dashboard_form.setVisible(false);
+            add_form.setVisible(false);
+            purchase_from.setVisible(false);
+            ListPatient_form.setVisible(true);
+
+            ListPatient_btn.setStyle("-fx-background-color:linear-gradient(to bottom right, #41b170, #8a418c);");
+            addMeds_btn.setStyle("-fx-background-color:TRANSPARENT");
+            dashboard_btn.setStyle("-fx-background-color:TRANSPARENT");
+            purchase_btn.setStyle("-fx-background-color:TRANSPARENT");
+
+            ListPatientShowList();
         }
     }
 
@@ -743,13 +819,30 @@ public class DashboardController  implements Initializable {
                 return;
             }
 
-            medicament.setQuantite(Integer.parseInt(purchase_Quantity.getText()));
-            medicament.setPrix(medicament.getQuantite()*medicament.getPrix());
+            if (!panier.getResumePanier().isEmpty()) {
+                for (Medicament medicament1 : panier.getResumePanier()) {
+                    if (medicament.getId() == medicament1.getId()) {
+                        medicament.setQuantite(Integer.parseInt(purchase_Quantity.getText()));
+                        medicament1.setQuantite(medicament1.getQuantite() + medicament.getQuantite());
+                        medicament1.setPrix(medicament.getPrix() * medicament1.getQuantite());
+                        prixTot += medicament1.getPrix();
+                    }else {
+                        medicament.setQuantite(Integer.parseInt(purchase_Quantity.getText()));
+                        medicament.setPrix(medicament.getQuantite() * medicament.getPrix());
+                        panier.getResumePanier().add(medicament);
+                        prixTot += medicament.getPrix();
+                    }
+                }
+            }else {
+                medicament.setQuantite(Integer.parseInt(purchase_Quantity.getText()));
+                medicament.setPrix(medicament.getQuantite() * medicament.getPrix());
+                panier.getResumePanier().add(medicament);
+                prixTot += medicament.getPrix();
+            }
 
-            prixTot+=medicament.getPrix();
             purchase_tot.setText(String.valueOf(prixTot));
 
-            panier.getResumePanier().add(medicament);
+
 
             purchase_CartCol_medicineID.setCellValueFactory(new PropertyValueFactory<>("id"));
             purchase_CartCol_productName.setCellValueFactory(new PropertyValueFactory<>("nom"));
@@ -804,7 +897,7 @@ public class DashboardController  implements Initializable {
     }
 
 
-AchatDAO achatDAO = new AchatDAO();
+    AchatDAO achatDAO = new AchatDAO();
     public void purchasePay(){
         Alert alert;
 
@@ -816,6 +909,25 @@ AchatDAO achatDAO = new AchatDAO();
         }else{
             achatDAO.create(new Achat(0,null,panier,prixTot,new Date().toString(),null));
         }
+    }
+
+
+    private ObservableList<Client> ListPatientList;
+    private ClientDAO clientDAO = new ClientDAO();
+    public void ListPatientShowList(){
+        ListPatientList = clientDAO.findAll();
+
+        // remplissage des colonnes en fonction des getter+propriété de l'objet Client
+        ListPatient_col_ID.setCellValueFactory(new PropertyValueFactory<>("idClient"));
+        ListPatient_col_Nom.setCellValueFactory(new PropertyValueFactory<>("nom"));
+        ListPatient_col_Prenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
+        ListPatient_col_Mail.setCellValueFactory(new PropertyValueFactory<>("mail"));
+        ListPatient_col_Tel.setCellValueFactory(new PropertyValueFactory<>("tel"));
+        ListPatient_col_Medecin.setCellValueFactory(new PropertyValueFactory<>("nomMed"));
+        ListPatient_col_Mutuelle.setCellValueFactory(new PropertyValueFactory<>("nomMut"));
+
+        ListPatient_TableView.setItems(ListPatientList);
+
     }
 
 }

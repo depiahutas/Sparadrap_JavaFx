@@ -2,11 +2,11 @@ package DAO.gestion;
 
 import DAO.DAO;
 import classMetier.gestion.Login;
+import javafx.collections.ObservableList;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class LoginDAO extends DAO<Login> {
     @Override
@@ -30,7 +30,7 @@ public class LoginDAO extends DAO<Login> {
     }
 
     @Override
-    public ArrayList<Login> findAll() {
+    public ObservableList<Login> findAll() {
         return null;
     }
     

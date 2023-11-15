@@ -3,6 +3,8 @@ package DAO.personne;
 import DAO.DAO;
 import DAO.gestion.AdresseDAO;
 import classMetier.personne.Personne;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -123,8 +125,8 @@ public class personneDAO extends DAO<Personne> {
     }
 
     @Override
-    public ArrayList<Personne> findAll() {
-        ArrayList<Personne> listPersonne = new ArrayList<>();
+    public ObservableList<Personne> findAll() {
+        ObservableList<Personne> listPersonne = FXCollections.observableArrayList();
 
         AdresseDAO adresseDAO = new AdresseDAO();
 

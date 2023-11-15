@@ -58,6 +58,7 @@
                            </styleClass>
                         </Button>
                         <Line endX="99.0" layoutX="101.0" layoutY="199.0" startX="-100.0" />
+                        <Button fx:id="ListPatient_btn" layoutX="24.0" layoutY="308.0" mnemonicParsing="false" onAction="#switch_form" prefHeight="25.0" prefWidth="174.0" styleClass="nav-btn" stylesheets="@DashboardDesign.css" text="List Patient" />
                      </children>
                   </AnchorPane>
                </left>
@@ -239,16 +240,21 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <AnchorPane layoutX="330.0" layoutY="187.0" prefHeight="622.0" prefWidth="828.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="ListPatient_form" layoutX="330.0" layoutY="187.0" prefHeight="622.0" prefWidth="828.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <AnchorPane layoutX="13.0" layoutY="14.0" prefHeight="242.0" prefWidth="802.0" stylesheets="@DashboardDesign.css" AnchorPane.bottomAnchor="366.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="14.0">
+                              <AnchorPane layoutX="13.0" layoutY="14.0" prefHeight="478.0" prefWidth="802.0" stylesheets="@DashboardDesign.css" AnchorPane.bottomAnchor="130.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="14.0">
                                  <children>
-                                    <AnchorPane layoutX="17.0" layoutY="60.0" prefHeight="161.0" prefWidth="768.0">
+                                    <AnchorPane layoutX="17.0" layoutY="60.0" prefHeight="389.0" prefWidth="768.0">
                                        <children>
-                                          <TableView layoutY="-5.0" prefHeight="161.0" prefWidth="768.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <TableView fx:id="ListPatient_TableView" layoutY="-5.0" prefHeight="389.0" prefWidth="768.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <columns>
-                                                <TableColumn prefWidth="382.0" text="C1" />
-                                                <TableColumn prefWidth="384.0" text="C2" />
+                                                <TableColumn fx:id="ListPatient_col_ID" prefWidth="54.0" text="ID" />
+                                                <TableColumn fx:id="ListPatient_col_Nom" prefWidth="110.0" text="Nom" />
+                                                <TableColumn fx:id="ListPatient_col_Prenom" prefWidth="124.0" text="Prenom" />
+                                                <TableColumn fx:id="ListPatient_col_Mail" prefWidth="125.0" text="Email" />
+                                                <TableColumn fx:id="ListPatient_col_Tel" prefWidth="115.0" text="Téléphone" />
+                                                <TableColumn fx:id="ListPatient_col_Medecin" prefWidth="106.0" text="Medecin Traitant" />
+                                                <TableColumn fx:id="ListPatient_col_Mutuelle" prefWidth="132.0" text="Mutuelle" />
                                              </columns>
                                           </TableView>
                                        </children>
@@ -258,12 +264,25 @@
                                           <Font name="System Bold" size="14.0" />
                                        </font>
                                     </Label>
-                                    <TextField layoutX="73.0" layoutY="22.0" prefHeight="25.0" prefWidth="233.0" />
+                                    <TextField fx:id="ListPatient_Search" layoutX="73.0" layoutY="22.0" prefHeight="25.0" prefWidth="233.0" />
                                  </children>
                                  <styleClass>
                                     <String fx:value="whithe-bg" />
                                     <String fx:value="shadow" />
                                  </styleClass>
+                              </AnchorPane>
+                              <AnchorPane layoutX="12.0" layoutY="508.0" prefHeight="100.0" prefWidth="804.0" stylesheets="@DashboardDesign.css">
+                                 <styleClass>
+                                    <String fx:value="whithe-bg" />
+                                    <String fx:value="shadow" />
+                                 </styleClass>
+                                 <children>
+                                    <Button fx:id="ListPatient_Btn_Create" layoutX="26.0" layoutY="38.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" styleClass="add-btn" stylesheets="@DashboardDesign.css" text="Create" />
+                                    <Button fx:id="ListPatient_Btn_Update" layoutX="149.0" layoutY="38.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" styleClass="update-btn" stylesheets="@DashboardDesign.css" text="Update" />
+                                    <Button fx:id="ListPatient_Btn_Delete" layoutX="268.0" layoutY="38.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" styleClass="delete-btn" stylesheets="@DashboardDesign.css" text="Delete" />
+                                    <Button fx:id="ListPatient_Btn_Purchase" layoutX="525.0" layoutY="38.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="150.0" styleClass="add-btn" text="Select for Purchase" />
+                                    <Button fx:id="ListPatient_Btn_Infos" layoutX="700.0" layoutY="37.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="90.0" styleClass="add-btn" stylesheets="@DashboardDesign.css" text="More Infos" />
+                                 </children>
                               </AnchorPane>
                            </children>
                         </AnchorPane>

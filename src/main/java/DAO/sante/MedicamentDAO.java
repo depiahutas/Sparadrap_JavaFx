@@ -129,8 +129,8 @@ public class MedicamentDAO extends DAO<Medicament> {
     }
 
     @Override
-    public ArrayList<Medicament> findAll() {
-        ArrayList<Medicament> listMedicament = new ArrayList<>();
+    public ObservableList<Medicament> findAll() {
+        ObservableList<Medicament> listMedicament = FXCollections.observableArrayList();
 
         CategorieMedicamentDAO categorieMedicamentDAO = new CategorieMedicamentDAO();
         

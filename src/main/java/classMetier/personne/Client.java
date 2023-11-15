@@ -3,6 +3,7 @@ package classMetier.personne;
 import classMetier.Util.Regex;
 import classMetier.sante.Mutuelle;
 
+import java.security.PrivateKey;
 import java.util.regex.Pattern;
 
 public class Client{
@@ -12,6 +13,7 @@ public class Client{
     private Mutuelle mutuelle;
     private Medecin medecin;
     private String numSecu;
+
 
     public Personne getPersonne() {
         return personne;
@@ -109,4 +111,29 @@ public class Client{
     setNumSecu(numSecu);
     }
 
+
+    //
+    public String getNom(){
+        return personne.getNom();
+    }
+
+    public String getPrenom() {
+        return personne.getPrenom();
+    }
+
+    public String getMail() {
+        return personne.getMail();
+    }
+
+    public String getTel() {
+        return personne.getTel();
+    }
+
+    public String getNomMut() {
+        return mutuelle.getNom();
+    }
+
+    public String getNomMed(){
+        return "Dr. "+medecin.getPersonne().getNom();
+    }
 }

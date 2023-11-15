@@ -3,6 +3,8 @@ package DAO.personne;
 import DAO.DAO;
 import DAO.sante.MutuelleDAO;
 import classMetier.personne.Client;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -123,8 +125,8 @@ public class ClientDAO extends DAO<Client> {
     }
 
     @Override
-    public ArrayList<Client> findAll(){
-        ArrayList<Client> listClient = new ArrayList<>();
+    public ObservableList<Client> findAll(){
+        ObservableList<Client> listClient = FXCollections.observableArrayList();
 
         personneDAO personneDAO = new personneDAO();
         MedecinDAO medecinDAO = new MedecinDAO();

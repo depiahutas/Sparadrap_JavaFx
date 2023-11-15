@@ -2,6 +2,8 @@ package DAO.gestion;
 
 import DAO.DAO;
 import classMetier.gestion.Adresse;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -112,8 +114,8 @@ public class AdresseDAO  extends DAO<Adresse> {
         return null;
     }
 
-    public ArrayList<Adresse> findAll() {
-        ArrayList<Adresse> listAdresse = new ArrayList<>();
+    public ObservableList<Adresse> findAll() {
+        ObservableList<Adresse> listAdresse = FXCollections.observableArrayList();
 
         StringBuilder sqlFindAllAdresse = new StringBuilder();
         sqlFindAllAdresse.append("select * from adresse ");

@@ -3,6 +3,8 @@ package DAO.sante;
 import DAO.DAO;
 import DAO.gestion.AdresseDAO;
 import classMetier.sante.Mutuelle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -121,8 +123,8 @@ public class MutuelleDAO extends DAO<classMetier.sante.Mutuelle> {
     }
 
     @Override
-    public ArrayList<Mutuelle> findAll() {
-        ArrayList<Mutuelle> listMutuelle = new ArrayList<>();
+    public ObservableList<Mutuelle> findAll() {
+        ObservableList<Mutuelle> listMutuelle = FXCollections.observableArrayList();
 
         AdresseDAO adresseDAO = new AdresseDAO();
 

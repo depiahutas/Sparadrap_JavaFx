@@ -10,8 +10,6 @@ import javafx.collections.ObservableList;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class PanierDAO extends DAO<Panier> {
 
@@ -97,7 +95,7 @@ public class PanierDAO extends DAO<Panier> {
 
     //inutile
     @Override
-    public ArrayList<Panier> findAll() {
+    public ObservableList<Panier> findAll() {
         return null;
     }
 

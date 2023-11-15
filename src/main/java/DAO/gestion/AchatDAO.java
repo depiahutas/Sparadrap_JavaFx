@@ -5,6 +5,8 @@ import DAO.personne.ClientDAO;
 import DAO.sante.OrdonnanceDAO;
 import classMetier.gestion.Achat;
 import classMetier.sante.Ordonnance;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -143,8 +145,8 @@ public class AchatDAO extends DAO<Achat> {
     }
 
     @Override
-    public ArrayList<Achat> findAll() {
-        ArrayList<Achat> listAchat = new ArrayList<>();
+    public ObservableList<Achat> findAll() {
+        ObservableList<Achat> listAchat = FXCollections.observableArrayList();
 
         ClientDAO clientDAO = new ClientDAO();
         OrdonnanceDAO ordonnanceDAO = new OrdonnanceDAO();

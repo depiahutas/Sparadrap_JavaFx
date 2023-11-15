@@ -2,6 +2,8 @@ package DAO.sante;
 
 import DAO.DAO;
 import classMetier.sante.CategorieMedicament;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -49,8 +51,8 @@ public class CategorieMedicamentDAO extends DAO<CategorieMedicament> {
     }
 
     @Override
-    public ArrayList<CategorieMedicament> findAll() {
-        ArrayList<CategorieMedicament> listCategorie = new ArrayList<>();
+    public ObservableList<CategorieMedicament> findAll() {
+        ObservableList<CategorieMedicament> listCategorie = FXCollections.observableArrayList();
 
         StringBuilder sqlFindAllCatMedic = new StringBuilder();
         sqlFindAllCatMedic.append("select * from categorie_medic ");

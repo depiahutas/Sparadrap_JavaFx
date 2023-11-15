@@ -5,6 +5,8 @@ import DAO.gestion.ComposeDAO;
 import DAO.personne.ClientDAO;
 import DAO.personne.MedecinDAO;
 import classMetier.sante.Ordonnance;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -120,8 +122,8 @@ public class OrdonnanceDAO extends DAO<Ordonnance> {
     }
 
     @Override
-    public ArrayList<Ordonnance> findAll() {
-        ArrayList<Ordonnance> listOrdonnace = new ArrayList<>();
+    public ObservableList<Ordonnance> findAll() {
+        ObservableList<Ordonnance> listOrdonnace = FXCollections.observableArrayList();
 
         MedecinDAO medecinDAO = new MedecinDAO();
         ClientDAO clientDAO =  new ClientDAO();
