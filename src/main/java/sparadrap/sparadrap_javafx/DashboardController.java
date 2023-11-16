@@ -3,11 +3,16 @@ package sparadrap.sparadrap_javafx;
 
 
 import DAO.gestion.AchatDAO;
+import DAO.gestion.AdresseDAO;
 import DAO.personne.ClientDAO;
+import DAO.personne.MedecinDAO;
+import DAO.personne.personneDAO;
 import DAO.sante.CategorieMedicamentDAO;
 import DAO.sante.MedicamentDAO;
+import DAO.sante.MutuelleDAO;
 import classMetier.Util.getData;
 import classMetier.gestion.Achat;
+import classMetier.gestion.Adresse;
 import classMetier.gestion.Panier;
 import classMetier.personne.Client;
 import classMetier.personne.Medecin;
@@ -280,7 +285,59 @@ public class DashboardController  implements Initializable {
     private Button purchase_addBtn1;
 
 
+    @FXML
+    private Button addClient_AddBtn;
 
+    @FXML
+    private TextField addClient_AdrCP;
+
+    @FXML
+    private TextField addClient_AdrNum;
+
+    @FXML
+    private TextField addClient_AdrRue;
+
+    @FXML
+    private TextField addClient_AdrVille;
+
+    @FXML
+    private Button addClient_BackBtn;
+
+    @FXML
+    private TextField addClient_CliDateNaiss;
+
+    @FXML
+    private TextField addClient_CliNumSecu;
+
+    @FXML
+    private ComboBox<Medecin> addClient_Med;
+
+    @FXML
+    private ComboBox<Mutuelle> addClient_Mut;
+
+    @FXML
+    private TextField addClient_PerMail;
+
+    @FXML
+    private TextField addClient_PerNom;
+
+    @FXML
+    private TextField addClient_PerPrenom;
+
+    @FXML
+    private TextField addClient_PerTel;
+
+    @FXML
+    private Button addClient_ResetBtn;
+
+    @FXML
+    private AnchorPane addClient_form;
+
+    @FXML
+    private Button CreationClient_btn;
+
+    @FXML
+    private Button addClient_updateClient;
 
     private double x=0;
     private double y=0;
@@ -347,6 +404,7 @@ public class DashboardController  implements Initializable {
             add_form.setVisible(false);
             purchase_from.setVisible(false);
             ListPatient_form.setVisible(false);
+            addClient_form.setVisible(false);
 
 
             dashboard_btn.setStyle("-fx-background-color:linear-gradient(to bottom right, #41b170, #8a418c);");
@@ -360,6 +418,7 @@ public class DashboardController  implements Initializable {
             add_form.setVisible(true);
             purchase_from.setVisible(false);
             ListPatient_form.setVisible(false);
+            addClient_form.setVisible(false);
 
             addMeds_btn.setStyle("-fx-background-color:linear-gradient(to bottom right, #41b170, #8a418c);");
             dashboard_btn.setStyle("-fx-background-color:TRANSPARENT");
@@ -375,12 +434,14 @@ public class DashboardController  implements Initializable {
             addMedicineSearch();
         }
 
-        // affichage du form achat médicament + boutton mit en contraste
+        // affichage du form correspondant au boutton cliqué
         if (event.getSource() == purchase_btn){
             dashboard_form.setVisible(false);
             add_form.setVisible(false);
             ListPatient_form.setVisible(false);
             purchase_from.setVisible(true);
+
+            addClient_form.setVisible(false);
 
             purchase_btn.setStyle("-fx-background-color:linear-gradient(to bottom right, #41b170, #8a418c);");
             addMeds_btn.setStyle("-fx-background-color:TRANSPARENT");
@@ -403,6 +464,7 @@ public class DashboardController  implements Initializable {
             add_form.setVisible(false);
             purchase_from.setVisible(false);
             ListPatient_form.setVisible(true);
+            addClient_form.setVisible(false);
 
             ListPatient_btn.setStyle("-fx-background-color:linear-gradient(to bottom right, #41b170, #8a418c);");
             addMeds_btn.setStyle("-fx-background-color:TRANSPARENT");
@@ -411,6 +473,7 @@ public class DashboardController  implements Initializable {
 
             ListPatientShowList();
         }
+
     }
 
 
@@ -720,6 +783,7 @@ public class DashboardController  implements Initializable {
 
     private ObservableList<Medicament> purchaseMedicineList = medicamentDAO.addMedecineList();
 
+    // affichage list médicament en fonction de la catégorie sélectionné
     public void purchaseType(){
 
         if (puchase_type.getSelectionModel().getSelectedItem()!=null) {
@@ -731,6 +795,7 @@ public class DashboardController  implements Initializable {
         purchaseMedicineShowList(purchaseMedicineList);
     }
 
+    // remplissage combobox catégorie médicament
     public void purchaseListType()
     {
 
@@ -742,6 +807,7 @@ public class DashboardController  implements Initializable {
         puchase_type.setItems(list);
     }
 
+    // filtre recherche médicament
     public void purchaseContain(){
         FilteredList<Medicament> filter = new FilteredList<>(purchaseMedicineList, e-> true);
 
@@ -776,6 +842,7 @@ public class DashboardController  implements Initializable {
     }
 
 
+    // affichage liste médicament
     public void purchaseMedicineShowList(ObservableList<Medicament> List){
 
         if (List==null){
@@ -793,6 +860,7 @@ public class DashboardController  implements Initializable {
     }
 
 
+    // reset filtre recherche médicament
     public void purchaseResetFilter(){
         purchaseMedicineList = medicamentDAO.addMedecineList();
 
@@ -802,6 +870,7 @@ public class DashboardController  implements Initializable {
     }
 
 
+    // action ajouter au panier
     public void purchaseAddToCart(){
         Alert alert;
 
@@ -820,24 +889,30 @@ public class DashboardController  implements Initializable {
             }
 
             if (!panier.getResumePanier().isEmpty()) {
-                for (Medicament medicament1 : panier.getResumePanier()) {
-                    if (medicament.getId() == medicament1.getId()) {
-                        medicament.setQuantite(Integer.parseInt(purchase_Quantity.getText()));
-                        medicament1.setQuantite(medicament1.getQuantite() + medicament.getQuantite());
-                        medicament1.setPrix(medicament.getPrix() * medicament1.getQuantite());
-                        prixTot += medicament1.getPrix();
-                    }else {
-                        medicament.setQuantite(Integer.parseInt(purchase_Quantity.getText()));
-                        medicament.setPrix(medicament.getQuantite() * medicament.getPrix());
-                        panier.getResumePanier().add(medicament);
-                        prixTot += medicament.getPrix();
+                int i=0;
+                boolean find = false;
+                while (!find && i<panier.getResumePanier().size() ) {
+                    if (medicament.getId() == panier.getResumePanier().get(i).getId()) {
+                        panier.getResumePanier().get(i).setQuantite(
+                                panier.getResumePanier().get(i).getQuantite()+Integer.parseInt(purchase_Quantity.getText()));
+                        prixTot-=panier.getResumePanier().get(i).getPrix();
+                        panier.getResumePanier().get(i).setPrix(medicament.getPrix() * panier.getResumePanier().get(i).getQuantite());
+                        prixTot += panier.getResumePanier().get(i).getPrix();
+                        find = true;
                     }
+                    i++;
                 }
+
+                if (!find){
+                    Medicament medClone =new Medicament(medicament,Integer.parseInt(purchase_Quantity.getText()));
+                    panier.getResumePanier().add(medClone);
+                    prixTot += medicament.getPrix();
+                }
+
             }else {
-                medicament.setQuantite(Integer.parseInt(purchase_Quantity.getText()));
-                medicament.setPrix(medicament.getQuantite() * medicament.getPrix());
-                panier.getResumePanier().add(medicament);
-                prixTot += medicament.getPrix();
+                Medicament medClone =new Medicament(medicament,Integer.parseInt(purchase_Quantity.getText()));
+                panier.getResumePanier().add(medClone);
+                prixTot += medClone.getPrix();
             }
 
             purchase_tot.setText(String.valueOf(prixTot));
@@ -852,12 +927,14 @@ public class DashboardController  implements Initializable {
             purchase_CartCol_date.setCellValueFactory(new PropertyValueFactory<>("dateMES"));
 
             purchase_CartTableView.setItems(panier.getResumePanier());
+            purchase_CartTableView.refresh();
 
         }
 
     }
 
 
+    // action supression article du panier
     public void purchaseRemoveFromCart() {
         Alert alert;
 
@@ -898,6 +975,7 @@ public class DashboardController  implements Initializable {
 
 
     AchatDAO achatDAO = new AchatDAO();
+    // Action boutton effectuer achat
     public void purchasePay(){
         Alert alert;
 
@@ -914,6 +992,8 @@ public class DashboardController  implements Initializable {
 
     private ObservableList<Client> ListPatientList;
     private ClientDAO clientDAO = new ClientDAO();
+
+    // affichage de la liste de Client
     public void ListPatientShowList(){
         ListPatientList = clientDAO.findAll();
 
@@ -930,5 +1010,312 @@ public class DashboardController  implements Initializable {
 
     }
 
+    AdresseDAO adresseDAO= new AdresseDAO();
+    personneDAO personneDAO = new personneDAO();
+    // Action boutton creation client
+    public  void createClient(){
+        Alert alert;
+
+        if (!checkFields().isEmpty()){
+            String msgAlert = "Les champs suivant sont obligatoire :" + checkFields();
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setContentText(msgAlert);
+            alert.showAndWait();
+        }
+        else {
+            try {
+
+                Adresse adresse = new Adresse(0, Integer.parseInt(addClient_AdrNum.getText()),
+                        addClient_AdrRue.getText(), addClient_AdrCP.getText(),
+                        addClient_AdrVille.getText());
+
+
+                Personne personne = new Personne(0,addClient_PerNom.getText(),
+                        addClient_PerPrenom.getText(),
+                        addClient_PerMail.getText(), addClient_PerTel.getText(),
+                        adresse);
+
+                Client client = new Client(0,
+                        personne,
+                        addClient_CliDateNaiss.getText(),
+                        addClient_Med.getSelectionModel().getSelectedItem(),
+                        addClient_Mut.getSelectionModel().getSelectedItem(),
+                        addClient_CliNumSecu.getText());
+
+
+                adresseDAO.verif_adr(adresse);
+
+                personneDAO.verif_per(personne);
+
+                clientDAO.verif_client(client);
+
+                alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setHeaderText(null);
+                alert.setContentText("Client ajouter a la BDD");
+                alert.showAndWait();
+
+                addClientReset();
+
+            }catch (Exception e){
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(null);
+                alert.setContentText(e.getMessage());
+                alert.showAndWait();
+            }
+
+
+        }
+    }
+
+    // Verifie que les champs sont remplis
+    // A ajouter verification avec regex
+    public StringBuilder checkFields(){
+
+        StringBuilder msgAlert = new StringBuilder();
+        if (addClient_PerNom.getText().isEmpty()){
+            msgAlert.append("\n- Nom");
+        }
+
+        if (addClient_PerPrenom.getText().isEmpty()){
+            msgAlert.append("\n- Prénom");
+        }
+
+        if (addClient_PerMail.getText().isEmpty()){
+            msgAlert.append("\n- Mail");
+        }
+
+        if (addClient_PerTel.getText().isEmpty()){
+            msgAlert.append("\n- Teléphone");
+        }
+
+        if (addClient_PerPrenom.getText().isEmpty()){
+            msgAlert.append("\n- Prénom");
+        }
+
+        if (addClient_AdrNum.getText().isEmpty()){
+            msgAlert.append("\n- Numéro");
+        }
+
+        if (addClient_AdrRue.getText().isEmpty()){
+            msgAlert.append("\n- Rue");
+        }
+
+        if (addClient_AdrCP.getText().isEmpty()){
+            msgAlert.append("\n- Code Postal");
+        }
+
+        if (addClient_AdrVille.getText().isEmpty()){
+            msgAlert.append("\n- Ville");
+        }
+
+        if (addClient_CliDateNaiss.getText().isEmpty()){
+            msgAlert.append("\n- Date de Naissance");
+        }
+
+        if (addClient_CliNumSecu.getText().isEmpty()){
+            msgAlert.append("\n- Numéro de Sécurité Social");
+        }
+
+        if (addClient_Med.getSelectionModel().getSelectedIndex()==-1){
+            msgAlert.append("\n- Medecin Traitant");
+        }
+
+        if (addClient_Mut.getSelectionModel().getSelectedIndex()==-1){
+            msgAlert.append("\n- Mutuelle");
+        }
+
+        return msgAlert;
+    }
+
+
+    // remplissage combobox mutuelle
+    MutuelleDAO mutuelleDAO = new MutuelleDAO();
+    public void AddClientMutList(){
+        List<Mutuelle> listT = new ArrayList<>();
+        CategorieMedicamentDAO categorieMedicamentDAO = new CategorieMedicamentDAO();
+        listT.addAll(mutuelleDAO.findAll());
+
+        ObservableList list = FXCollections.observableArrayList(listT);
+        addClient_Mut.setItems(list);
+    }
+
+    // remplissage combobox medecin
+    MedecinDAO medecinDAO = new MedecinDAO();
+    public void AddClientMedList(){
+        List<Medecin> listT = new ArrayList<>();
+        CategorieMedicamentDAO categorieMedicamentDAO = new CategorieMedicamentDAO();
+        listT.addAll(medecinDAO.findAll());
+
+        ObservableList list = FXCollections.observableArrayList(listT);
+        addClient_Med.setItems(list);
+    }
+
+
+    // réinitialise tout les champs
+    public void addClientReset(){
+        addClient_PerNom.setText("");
+        addClient_PerPrenom.setText("");
+        addClient_PerMail.setText("");
+        addClient_PerTel.setText("");
+
+        addClient_AdrNum.setText("");
+        addClient_AdrRue.setText("");
+        addClient_AdrCP.setText("");
+        addClient_AdrVille.setText("");
+
+        addClient_CliNumSecu.setText("");
+        addClient_CliDateNaiss.setText("");
+
+        addClient_Med.getSelectionModel().select(-1);
+        addClient_Mut.getSelectionModel().select(-1);
+    }
+
+
+    public void addClientRetun(){
+        addClient_form.setVisible(false);
+        ListPatient_form.setVisible(true);
+        ListPatient_btn.setStyle("-fx-background-color:linear-gradient(to bottom right, #41b170, #8a418c);");
+    }
+
+    public void ListPatientAddClient(){
+        ListPatient_form.setVisible(false);
+        addClient_form.setVisible(true);
+        ListPatient_btn.setStyle("-fx-background-color:TRANSPARENT");
+
+        addClient_AddBtn.setVisible(true);
+        addClient_ResetBtn.setVisible(true);
+        addClient_updateClient.setVisible(false);
+
+        AddClientMedList();
+        AddClientMutList();
+        addClientReset();
+
+    }
+
+
+    public void ListPatientUpdateClient(){
+        int num = ListPatient_TableView.getSelectionModel().getSelectedIndex();
+
+        Alert alert;
+
+        if (num < 0){
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setContentText("Selectionné un client dans la liste");
+            alert.showAndWait();
+        }
+        else {
+            ListPatient_form.setVisible(false);
+            addClient_form.setVisible(true);
+            ListPatient_btn.setStyle("-fx-background-color:TRANSPARENT");
+
+            AddClientMedList();
+            AddClientMutList();
+            addClientReset();
+            Client client = ListPatient_TableView.getSelectionModel().getSelectedItem();
+            Adresse adresse = client.getPersonne().getAdresse();
+            Personne personne = client.getPersonne();
+
+
+            addClient_PerNom.setText(personne.getNom());
+            addClient_PerPrenom.setText(personne.getPrenom());
+            addClient_PerMail.setText(personne.getMail());
+            addClient_PerTel.setText(personne.getTel());
+
+            addClient_AdrNum.setText(String.valueOf(adresse.getNumero()));
+            addClient_AdrRue.setText(adresse.getRue());
+            addClient_AdrCP.setText(adresse.getCodePostal());
+            addClient_AdrVille.setText(adresse.getVille());
+
+            addClient_CliNumSecu.setText(client.getNumSecu());
+            addClient_CliDateNaiss.setText(client.getDateNaiss());
+
+            addClient_Med.getSelectionModel().select(client.getMedecin());
+            addClient_Mut.getSelectionModel().select(client.getMutuelle());
+
+            addClient_AddBtn.setVisible(false);
+            addClient_ResetBtn.setVisible(false);
+            addClient_updateClient.setVisible(true);
+
+        }
+    }
+
+
+    public void updateClient(){
+            Alert alert;
+
+        if (!checkFields().isEmpty()){
+
+            String msgAlert = "Les champs suivant sont obligatoire :" + checkFields();
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setContentText(msgAlert);
+            alert.showAndWait();
+        }
+        else {
+            try {
+
+                Client client = ListPatient_TableView.getSelectionModel().getSelectedItem();
+                Adresse adresse = client.getPersonne().getAdresse();
+                Personne personne = client.getPersonne();
+
+
+                adresse.setNumero(Integer.parseInt(addClient_AdrNum.getText()));
+                //        addClient_AdrRue.getText(), addClient_AdrCP.getText(),
+                //        addClient_AdrVille.getText()
+
+
+                // setter client + adresse a faire
+
+                adresseDAO.update(adresse);
+
+                personneDAO.update(personne);
+
+                clientDAO.update(client);
+
+                alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setHeaderText(null);
+                alert.setContentText("Mise a Jour effectué");
+                alert.showAndWait();
+
+                addClientReset();
+
+                ListPatient_TableView.refresh();
+                ListPatient_TableView.setItems(clientDAO.findAll());
+
+            }catch (Exception e){
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(null);
+                alert.setContentText(e.getMessage());
+                alert.showAndWait();
+            }
+
+        }
+    }
+
+
+    public void ListPatientDelete(){
+
+        int num = ListPatient_TableView.getSelectionModel().getSelectedIndex();
+
+        Alert alert;
+
+        if (num < 0){
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setContentText("Selectionné un client dans la liste");
+            alert.showAndWait();
+        }
+        else {
+            Client client = ListPatient_TableView.getSelectionModel().getSelectedItem();
+            Adresse adresse = client.getPersonne().getAdresse();
+            Personne personne = client.getPersonne();
+
+            clientDAO.delete(client);
+            ListPatient_TableView.refresh();
+            ListPatient_TableView.setItems(clientDAO.findAll());
+        }
+    }
 }
 

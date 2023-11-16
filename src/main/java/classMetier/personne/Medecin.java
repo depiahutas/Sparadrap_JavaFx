@@ -58,4 +58,9 @@ public class Medecin{
         setPersonne(personne);
         setNumAgr(numAgr);
     }
+
+    @Override
+    public String toString() {
+        return "Dr. "+personne.getNom();
+    }
 }

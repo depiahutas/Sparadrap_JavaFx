@@ -62,7 +62,7 @@ public class AdresseDAO  extends DAO<Adresse> {
     public boolean update(Adresse obj) {
         StringBuilder sqlUpdateAdresse = new StringBuilder();
         sqlUpdateAdresse.append("update adresse ");
-        sqlUpdateAdresse.append("set adr_numero =?,adr_rue = ?,adr_cp=?,adr_ville=?)");
+        sqlUpdateAdresse.append("set adr_num =?,adr_rue = ?,adr_cp=?,adr_ville=? ");
         sqlUpdateAdresse.append("where adr_id=?");
 
         boolean requetOK = false;
@@ -72,8 +72,8 @@ public class AdresseDAO  extends DAO<Adresse> {
             preparedStatement.setInt(1, obj.getNumero());
             preparedStatement.setString(2, obj.getRue());
             preparedStatement.setString(3, obj.getCodePostal());
+            preparedStatement.setString(4, obj.getVille());
             preparedStatement.setInt(5, obj.getID());
-            preparedStatement.setString(6, obj.getVille());
 
             preparedStatement.executeUpdate();
             requetOK = true;
@@ -167,7 +167,7 @@ public class AdresseDAO  extends DAO<Adresse> {
             }
 
             create(adresse);
-            adresse.setId(count()+1);
+            adresse.setId(nextID());
 
             return adresse;
 
@@ -179,15 +179,16 @@ public class AdresseDAO  extends DAO<Adresse> {
     }
 
 
-    public int count(){
+    public int nextID(){
         StringBuilder sqlCountAdresse = new StringBuilder();
-        sqlCountAdresse.append("select count(*) as nb_adr from Adresse ");
+        sqlCountAdresse.append("select adr_id from Adresse ");
+        sqlCountAdresse.append("order by adr_id desc limit 1");
         try (PreparedStatement preparedStatement =
                      this.connection.prepareStatement(sqlCountAdresse.toString())) {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                return resultSet.getInt("nb_adr");
+                return resultSet.getInt("adr_id");
             }
 
         } catch (SQLException e) {

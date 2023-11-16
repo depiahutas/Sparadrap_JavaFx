@@ -8,7 +8,6 @@ public class Medicament {
     private String dateMES;
     private int quantite;
     private CategorieMedicament categorie;
-    private String categorieMed;
 
     private String image;
 
@@ -29,8 +28,16 @@ public class Medicament {
         setDateMES(dateMES);
         setQuantite(quantite);
         setCategorie(categorie);
-        setCategorieMed(categorie.getLibelle());
         setImage(image);
+    }
+
+    public Medicament(Medicament medicament,int qte) {
+        setId(medicament.getId());
+        setNom(medicament.getNom());
+        setPrix(medicament.getPrix());
+        setCategorie(medicament.getCategorie());
+        setQuantite(qte);
+        setDateMES(medicament.getDateMES());
     }
 
     public int getId() {
@@ -106,11 +113,7 @@ public class Medicament {
     }
 
     public String getCategorieMed() {
-        return categorieMed;
-    }
-
-    public void setCategorieMed(String categorieMed) {
-        this.categorieMed = categorieMed;
+        return getCategorie().getLibelle();
     }
 
     @Override

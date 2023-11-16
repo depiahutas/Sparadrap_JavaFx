@@ -187,8 +187,7 @@ public class ClientDAO extends DAO<Client> {
             }
 
             if (create(client)) {
-                int c=count();
-                client.setIdClient(c);
+                client.setIdClient(nextID());
                 return client;
             }
 
@@ -201,15 +200,16 @@ public class ClientDAO extends DAO<Client> {
 
 
 
-    public int count(){
+    public int nextID(){
         StringBuilder sqlCountClient = new StringBuilder();
-        sqlCountClient.append("select count(*) as nb_cli from Client ");
+        sqlCountClient.append("select cli_id from Client ");
+        sqlCountClient.append("Order by cli_id desc limit 1");
         try (PreparedStatement preparedStatement =
                      this.connection.prepareStatement(sqlCountClient.toString())) {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                return resultSet.getInt("nb_cli");
+                return resultSet.getInt("cli_id");
             }
 
         } catch (SQLException e) {

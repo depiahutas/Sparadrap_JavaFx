@@ -179,8 +179,7 @@ public class personneDAO extends DAO<Personne> {
             }
 
             if (create(personne)) {
-                int c=count();
-                personne.setId(c);
+                personne.setId(nextID());
                 return personne;
             }
 
@@ -191,15 +190,16 @@ public class personneDAO extends DAO<Personne> {
         return null;
     }
 
-    public int count() {
+    public int nextID() {
         StringBuilder sqlCountPersonne = new StringBuilder();
-        sqlCountPersonne.append("select count(*) as nb_per from Personne ");
+        sqlCountPersonne.append("select per_id from Personne ");
+        sqlCountPersonne.append("Order by per_id desc limit 1");
         try (PreparedStatement preparedStatement =
                      this.connection.prepareStatement(sqlCountPersonne.toString())) {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                    return resultSet.getInt("nb_per");
+                    return resultSet.getInt("per_id");
             }
 
         } catch (SQLException e) {

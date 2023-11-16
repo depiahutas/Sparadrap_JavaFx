@@ -58,7 +58,7 @@
                            </styleClass>
                         </Button>
                         <Line endX="99.0" layoutX="101.0" layoutY="199.0" startX="-100.0" />
-                        <Button fx:id="ListPatient_btn" layoutX="24.0" layoutY="308.0" mnemonicParsing="false" onAction="#switch_form" prefHeight="25.0" prefWidth="174.0" styleClass="nav-btn" stylesheets="@DashboardDesign.css" text="List Patient" />
+                        <Button fx:id="ListPatient_btn" layoutX="24.0" layoutY="311.0" mnemonicParsing="false" onAction="#switch_form" prefHeight="25.0" prefWidth="174.0" styleClass="nav-btn" stylesheets="@DashboardDesign.css" text="List Patient" />
                      </children>
                   </AnchorPane>
                </left>
@@ -277,11 +277,75 @@
                                     <String fx:value="shadow" />
                                  </styleClass>
                                  <children>
-                                    <Button fx:id="ListPatient_Btn_Create" layoutX="26.0" layoutY="38.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" styleClass="add-btn" stylesheets="@DashboardDesign.css" text="Create" />
-                                    <Button fx:id="ListPatient_Btn_Update" layoutX="149.0" layoutY="38.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" styleClass="update-btn" stylesheets="@DashboardDesign.css" text="Update" />
-                                    <Button fx:id="ListPatient_Btn_Delete" layoutX="268.0" layoutY="38.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" styleClass="delete-btn" stylesheets="@DashboardDesign.css" text="Delete" />
+                                    <Button fx:id="ListPatient_Btn_Create" layoutX="26.0" layoutY="38.0" mnemonicParsing="false" onAction="#ListPatientAddClient" prefHeight="25.0" prefWidth="95.0" styleClass="add-btn" stylesheets="@DashboardDesign.css" text="Create" />
+                                    <Button fx:id="ListPatient_Btn_Update" layoutX="149.0" layoutY="38.0" mnemonicParsing="false" onAction="#ListPatientUpdateClient" prefHeight="25.0" prefWidth="95.0" styleClass="update-btn" stylesheets="@DashboardDesign.css" text="Update" />
+                                    <Button fx:id="ListPatient_Btn_Delete" layoutX="268.0" layoutY="38.0" mnemonicParsing="false" onAction="#ListPatientDelete" prefHeight="25.0" prefWidth="95.0" styleClass="delete-btn" stylesheets="@DashboardDesign.css" text="Delete" />
                                     <Button fx:id="ListPatient_Btn_Purchase" layoutX="525.0" layoutY="38.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="150.0" styleClass="add-btn" text="Select for Purchase" />
                                     <Button fx:id="ListPatient_Btn_Infos" layoutX="700.0" layoutY="37.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="90.0" styleClass="add-btn" stylesheets="@DashboardDesign.css" text="More Infos" />
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane fx:id="addClient_form" layoutX="307.0" layoutY="135.0" prefHeight="622.0" prefWidth="828.0" stylesheets="@DashboardDesign.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="203.0" prefWidth="800.0" stylesheets="@DashboardDesign.css">
+                                 <styleClass>
+                                    <String fx:value="whithe-bg" />
+                                    <String fx:value="shadow" />
+                                 </styleClass>
+                                 <children>
+                                    <Label layoutX="14.0" layoutY="14.0" text="Nom :" />
+                                    <Label layoutX="400.0" layoutY="14.0" text="Prenom :" />
+                                    <TextField fx:id="addClient_PerNom" layoutX="54.0" layoutY="10.0" />
+                                    <TextField fx:id="addClient_PerPrenom" layoutX="455.0" layoutY="10.0" />
+                                    <Label layoutX="14.0" layoutY="68.0" text="Mail :" />
+                                    <Label layoutX="14.0" layoutY="127.0" text="Tel :" />
+                                    <TextField fx:id="addClient_PerMail" layoutX="54.0" layoutY="64.0" />
+                                    <TextField fx:id="addClient_PerTel" layoutX="54.0" layoutY="123.0" />
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane layoutX="14.0" layoutY="234.0" prefHeight="121.0" prefWidth="800.0" stylesheets="@DashboardDesign.css">
+                                 <styleClass>
+                                    <String fx:value="whithe-bg" />
+                                    <String fx:value="shadow" />
+                                 </styleClass>
+                                 <children>
+                                    <Label layoutX="14.0" layoutY="28.0" text="Numéro :" />
+                                    <Label layoutX="400.0" layoutY="28.0" text="Rue :" />
+                                    <Label layoutX="14.0" layoutY="83.0" text="Code Postal :" />
+                                    <Label layoutX="400.0" layoutY="83.0" text="Ville ;" />
+                                    <TextField fx:id="addClient_AdrNum" layoutX="91.0" layoutY="24.0" />
+                                    <TextField fx:id="addClient_AdrCP" layoutX="91.0" layoutY="79.0" />
+                                    <TextField fx:id="addClient_AdrRue" layoutX="440.0" layoutY="24.0" />
+                                    <TextField fx:id="addClient_AdrVille" layoutX="440.0" layoutY="79.0" />
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane layoutX="14.0" layoutY="372.0" prefHeight="121.0" prefWidth="800.0" stylesheets="@DashboardDesign.css">
+                                 <styleClass>
+                                    <String fx:value="whithe-bg" />
+                                    <String fx:value="shadow" />
+                                 </styleClass>
+                                 <children>
+                                    <Label layoutX="14.0" layoutY="28.0" text="Date de Naissance :" />
+                                    <Label layoutX="400.0" layoutY="28.0" text="Mutuelle :" />
+                                    <Label layoutX="14.0" layoutY="83.0" text="Numéro de sécurité sociale :" />
+                                    <Label layoutX="400.0" layoutY="83.0" text="Mutuelle :" />
+                                    <TextField fx:id="addClient_CliDateNaiss" layoutX="176.0" layoutY="24.0" />
+                                    <TextField fx:id="addClient_CliNumSecu" layoutX="176.0" layoutY="76.0" />
+                                    <ComboBox fx:id="addClient_Med" layoutX="477.0" layoutY="24.0" prefWidth="150.0" />
+                                    <ComboBox fx:id="addClient_Mut" layoutX="477.0" layoutY="79.0" prefWidth="150.0" />
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane layoutX="14.0" layoutY="555.0" prefHeight="53.0" prefWidth="800.0" stylesheets="@DashboardDesign.css">
+                                 <styleClass>
+                                    <String fx:value="whithe-bg" />
+                                    <String fx:value="shadow" />
+                                 </styleClass>
+                                 <children>
+                                    <Button fx:id="addClient_AddBtn" layoutX="636.0" layoutY="14.0" mnemonicParsing="false" onAction="#createClient" prefHeight="26.0" prefWidth="65.0" styleClass="add-btn" stylesheets="@DashboardDesign.css" text="Ajouter" />
+                                    <Button fx:id="addClient_ResetBtn" layoutX="545.0" layoutY="14.0" mnemonicParsing="false" onAction="#addClientReset" prefHeight="26.0" prefWidth="66.0" styleClass="clear-btn" stylesheets="@DashboardDesign.css" text="Reset" />
+                                    <Button fx:id="addClient_BackBtn" layoutX="719.0" layoutY="14.0" mnemonicParsing="false" onAction="#addClientRetun" prefHeight="26.0" prefWidth="64.0" styleClass="update-btn" stylesheets="@DashboardDesign.css" text="Retour" />
+                                    <Button fx:id="addClient_updateClient" layoutX="620.0" layoutY="14.0" mnemonicParsing="false" onAction="#updateClient" prefHeight="26.0" prefWidth="90.0" styleClass="add-btn" stylesheets="@DashboardDesign.css" text="Mise a jour" visible="false" />
                                  </children>
                               </AnchorPane>
                            </children>
