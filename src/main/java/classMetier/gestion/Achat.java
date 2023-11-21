@@ -2,6 +2,7 @@ package classMetier.gestion;
 
 import classMetier.Util.Regex;
 import classMetier.personne.Client;
+import classMetier.sante.Medicament;
 import classMetier.sante.Ordonnance;
 
 import java.util.regex.Pattern;
@@ -100,4 +101,35 @@ public class Achat {
     public void setOrdonnance(Ordonnance ordonnance) {
         this.ordonnance = ordonnance;
     }
+
+
+    public String getNom(){
+        return client.getNom();
+    }
+
+    public String getPrenom(){
+        return client.getPrenom();
+    }
+
+    public String getOrd(){
+        if (ordonnance  == null){
+            return "";
+        }
+        else {
+            return ""+id;
+        }
+    }
+
+    public String getListMeds(){
+        StringBuilder meds = new StringBuilder("");
+        for (Medicament m: panier.getResumePanier()) {
+            meds.append(m.getNom()).append(" | ");
+        }
+        return meds.toString();
+    }
+
+    public String getNomMut() {
+        return client.getMutuelle().getNom();
+    }
+
 }

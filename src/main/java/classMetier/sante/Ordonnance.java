@@ -84,4 +84,36 @@ public class Ordonnance {
     public void setCompose(Compose compose) {
         this.compose = compose;
     }
+
+    public int getIdClient(){
+        return client.getIdClient();
+    }
+
+    public String getNom(){
+        return client.getNom();
+    }
+
+    public String getPrenom(){
+        return client.getPrenom();
+    }
+
+    public int getNumOrd(){
+        return id;
+    }
+
+    public String getListMeds(){
+        StringBuilder meds = new StringBuilder("");
+        for (Medicament m: compose.getListMedic()) {
+            meds.append(m.getNom()).append(" | ");
+        }
+        return meds.toString();
+    }
+
+    public String getNomMut() {
+        return client.getMutuelle().getNom();
+    }
+
+    public String getNomMed(){
+        return "Dr. "+medecin.getPersonne().getNom();
+    }
 }

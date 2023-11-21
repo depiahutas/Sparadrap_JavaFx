@@ -10,6 +10,7 @@ import DAO.personne.personneDAO;
 import DAO.sante.CategorieMedicamentDAO;
 import DAO.sante.MedicamentDAO;
 import DAO.sante.MutuelleDAO;
+import DAO.sante.OrdonnanceDAO;
 import classMetier.Util.getData;
 import classMetier.gestion.Achat;
 import classMetier.gestion.Adresse;
@@ -20,6 +21,7 @@ import classMetier.personne.Personne;
 import classMetier.sante.CategorieMedicament;
 import classMetier.sante.Medicament;
 import classMetier.sante.Mutuelle;
+import classMetier.sante.Ordonnance;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -41,6 +43,7 @@ import javafx.stage.StageStyle;
 
 import java.io.File;
 import java.net.URL;
+import java.text.ParseException;
 import java.util.*;
 
 
@@ -339,6 +342,90 @@ public class DashboardController  implements Initializable {
     @FXML
     private Button addClient_updateClient;
 
+    @FXML
+    private ComboBox<Client> purchase_ClientName;
+    @FXML
+    private ToggleGroup ord_btnGroup;
+    @FXML
+    private RadioButton purchase_NoOrd;
+
+    @FXML
+    private TextField purchase_NumOrd;
+
+    @FXML
+    private RadioButton purchase_Ord;
+
+    @FXML
+    private Label purchaselblOrd;
+
+    @FXML
+    private AnchorPane ListOrdonannce_form;
+
+    @FXML
+    private TableView<Ordonnance> ListOrdonnance_TableView;
+
+    @FXML
+    private TableColumn<?, ?> ListOrdonnance_col_ID;
+
+    @FXML
+    private TableColumn<?, ?> ListOrdonnance_col_Medecin;
+
+    @FXML
+    private TableColumn<?, ?> ListOrdonnance_col_Meds;
+
+    @FXML
+    private TableColumn<?, ?> ListOrdonnance_col_Mutuelle;
+
+    @FXML
+    private TableColumn<?, ?> ListOrdonnance_col_Nom;
+
+    @FXML
+    private TableColumn<?, ?> ListOrdonnance_col_NumOrd;
+
+    @FXML
+    private TableColumn<?, ?> ListOrdonnance_col_Prenom;
+
+    @FXML
+    private TextField ListOrdonnance_search;
+
+    @FXML
+    private Button ListOrdonnance_btn;
+
+    @FXML
+    private TableView<Achat> HistoriqueAchat_TableView;
+
+    @FXML
+    private TableColumn<?, ?> HistoriqueAchat_col_ID;
+
+    @FXML
+    private TableColumn<?, ?> HistoriqueAchat_col_Medecin;
+
+    @FXML
+    private TableColumn<?, ?> HistoriqueAchat_col_Meds;
+
+    @FXML
+    private TableColumn<?, ?> HistoriqueAchat_col_Mutuelle;
+
+    @FXML
+    private TableColumn<?, ?> HistoriqueAchat_col_Nom;
+
+    @FXML
+    private TableColumn<?, ?> HistoriqueAchat_col_Ord;
+
+    @FXML
+    private TableColumn<?, ?> HistoriqueAchat_col_Prenom;
+
+    @FXML
+    private AnchorPane HistoriqueAchat_form;
+
+    @FXML
+    private TextField HistoriqueAchat_search;
+
+    @FXML
+    private Button HistoriqueAchat_btn;
+
+
+
     private double x=0;
     private double y=0;
 
@@ -405,12 +492,16 @@ public class DashboardController  implements Initializable {
             purchase_from.setVisible(false);
             ListPatient_form.setVisible(false);
             addClient_form.setVisible(false);
+            ListOrdonannce_form.setVisible(false);
+            HistoriqueAchat_form.setVisible(false);
 
 
             dashboard_btn.setStyle("-fx-background-color:linear-gradient(to bottom right, #41b170, #8a418c);");
             addMeds_btn.setStyle("-fx-background-color:TRANSPARENT");
             purchase_btn.setStyle("-fx-background-color:TRANSPARENT");
             ListPatient_btn.setStyle("-fx-background-color:TRANSPARENT");
+            ListOrdonnance_btn.setStyle("-fx-background-color:TRANSPARENT");
+            HistoriqueAchat_btn.setStyle("-fx-background-color:TRANSPARENT");
         }
         // affichage du form ajout Medicament + boutton mit en contraste
         if (event.getSource() == addMeds_btn){
@@ -419,11 +510,15 @@ public class DashboardController  implements Initializable {
             purchase_from.setVisible(false);
             ListPatient_form.setVisible(false);
             addClient_form.setVisible(false);
+            ListOrdonannce_form.setVisible(false);
+            HistoriqueAchat_form.setVisible(false);
 
             addMeds_btn.setStyle("-fx-background-color:linear-gradient(to bottom right, #41b170, #8a418c);");
             dashboard_btn.setStyle("-fx-background-color:TRANSPARENT");
             purchase_btn.setStyle("-fx-background-color:TRANSPARENT");
             ListPatient_btn.setStyle("-fx-background-color:TRANSPARENT");
+            ListOrdonnance_btn.setStyle("-fx-background-color:TRANSPARENT");
+            HistoriqueAchat_btn.setStyle("-fx-background-color:TRANSPARENT");
 
             addMedicineReset();
             add_type.getSelectionModel().select(0);
@@ -440,6 +535,8 @@ public class DashboardController  implements Initializable {
             add_form.setVisible(false);
             ListPatient_form.setVisible(false);
             purchase_from.setVisible(true);
+            ListOrdonannce_form.setVisible(false);
+            HistoriqueAchat_form.setVisible(false);
 
             addClient_form.setVisible(false);
 
@@ -447,16 +544,21 @@ public class DashboardController  implements Initializable {
             addMeds_btn.setStyle("-fx-background-color:TRANSPARENT");
             dashboard_btn.setStyle("-fx-background-color:TRANSPARENT");
             ListPatient_btn.setStyle("-fx-background-color:TRANSPARENT");
+            ListOrdonnance_btn.setStyle("-fx-background-color:TRANSPARENT");
+            HistoriqueAchat_btn.setStyle("-fx-background-color:TRANSPARENT");
 
             purchaseListType();
             puchase_type.getSelectionModel().select(-1);
             purchaseMedicineShowList(null);
 
-            panier = new Panier(0,FXCollections.observableArrayList());
-            purchase_CartTableView.setItems(null);
+
 
             prixTot=0;
             purchase_tot.setText(String.valueOf(prixTot));
+
+            purchase_ClientList();
+
+            purchaseResetAll();
 
         }
         if (event.getSource() == ListPatient_btn){
@@ -465,13 +567,53 @@ public class DashboardController  implements Initializable {
             purchase_from.setVisible(false);
             ListPatient_form.setVisible(true);
             addClient_form.setVisible(false);
+            ListOrdonannce_form.setVisible(false);
+            HistoriqueAchat_form.setVisible(false);
 
             ListPatient_btn.setStyle("-fx-background-color:linear-gradient(to bottom right, #41b170, #8a418c);");
             addMeds_btn.setStyle("-fx-background-color:TRANSPARENT");
             dashboard_btn.setStyle("-fx-background-color:TRANSPARENT");
             purchase_btn.setStyle("-fx-background-color:TRANSPARENT");
+            ListOrdonnance_btn.setStyle("-fx-background-color:TRANSPARENT");
+            HistoriqueAchat_btn.setStyle("-fx-background-color:TRANSPARENT");
 
             ListPatientShowList();
+        }
+        if (event.getSource() == ListOrdonnance_btn){
+            dashboard_form.setVisible(false);
+            add_form.setVisible(false);
+            purchase_from.setVisible(false);
+            ListPatient_form.setVisible(false);
+            ListOrdonannce_form.setVisible(true);
+            addClient_form.setVisible(false);
+            HistoriqueAchat_form.setVisible(false);
+
+            ListOrdonnance_btn.setStyle("-fx-background-color:linear-gradient(to bottom right, #41b170, #8a418c);");
+            ListPatient_btn.setStyle("-fx-background-color:TRANSPARENT");
+            addMeds_btn.setStyle("-fx-background-color:TRANSPARENT");
+            dashboard_btn.setStyle("-fx-background-color:TRANSPARENT");
+            purchase_btn.setStyle("-fx-background-color:TRANSPARENT");
+            HistoriqueAchat_btn.setStyle("-fx-background-color:TRANSPARENT");
+
+            ListOrdonnanceShowList();
+        }
+        if (event.getSource() == HistoriqueAchat_btn){
+            dashboard_form.setVisible(false);
+            add_form.setVisible(false);
+            purchase_from.setVisible(false);
+            ListPatient_form.setVisible(false);
+            ListOrdonannce_form.setVisible(false);
+            addClient_form.setVisible(false);
+            HistoriqueAchat_form.setVisible(true);
+
+            ListOrdonnance_btn.setStyle("-fx-background-color:TRANSPARENT");
+            ListPatient_btn.setStyle("-fx-background-color:TRANSPARENT");
+            addMeds_btn.setStyle("-fx-background-color:TRANSPARENT");
+            dashboard_btn.setStyle("-fx-background-color:TRANSPARENT");
+            purchase_btn.setStyle("-fx-background-color:TRANSPARENT");
+            HistoriqueAchat_btn.setStyle("-fx-background-color:linear-gradient(to bottom right, #41b170, #8a418c);");
+
+            ListAchatShowList();
         }
 
     }
@@ -975,8 +1117,9 @@ public class DashboardController  implements Initializable {
 
 
     AchatDAO achatDAO = new AchatDAO();
+    OrdonnanceDAO ordonnanceDAO = new OrdonnanceDAO();
     // Action boutton effectuer achat
-    public void purchasePay(){
+    public void purchasePay() throws ParseException {
         Alert alert;
 
         if(panier.getResumePanier().isEmpty()){
@@ -985,7 +1128,64 @@ public class DashboardController  implements Initializable {
             alert.setContentText("Need at least one medicine in the cart");
             alert.showAndWait();
         }else{
-            achatDAO.create(new Achat(0,null,panier,prixTot,new Date().toString(),null));
+            if (purchase_ClientName.getSelectionModel().getSelectedItem() == null){
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(null);
+                alert.setContentText("choose a customer");
+                alert.showAndWait();
+            }
+            else {
+
+                if (purchase_Ord.isSelected() && purchase_NumOrd.getText().isEmpty()){
+                    alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setHeaderText(null);
+                    alert.setContentText("Fill Ord number field please");
+                    alert.showAndWait();
+                } else if (purchase_NoOrd.isSelected()) {
+                    achatDAO.create(new Achat(0, purchase_ClientName.getSelectionModel().getSelectedItem(),
+                            panier, prixTot, classMetier.Util.Date.newDate(), null));
+
+                    alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setHeaderText(null);
+                    alert.setContentText("Achat effectué");
+                    alert.showAndWait();
+
+                    purchaseResetAll();
+                } else{
+                    Ordonnance ordonnance=ordonnanceDAO.find(Integer.parseInt(purchase_NumOrd.getText()));
+                    if (ordonnance ==null ){
+                        alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setHeaderText(null);
+                        alert.setContentText("Ord not exist continue  without ord ?");
+                        alert.showAndWait();
+                        Optional<ButtonType> option = alert.showAndWait();
+                        if (option.get().equals(ButtonType.OK)) {
+
+                            achatDAO.create(new Achat(0, purchase_ClientName.getSelectionModel().getSelectedItem(),
+                                    panier, prixTot, classMetier.Util.Date.newDate(), null));
+
+                            alert = new Alert(Alert.AlertType.CONFIRMATION);
+                            alert.setHeaderText(null);
+                            alert.setContentText("Achat effectué");
+                            alert.showAndWait();
+
+                            purchaseResetAll();
+                        }
+                    }
+                    else {
+
+                        achatDAO.create(new Achat(0, purchase_ClientName.getSelectionModel().getSelectedItem(),
+                                panier, prixTot, classMetier.Util.Date.newDate(), ordonnance));
+
+                        alert = new Alert(Alert.AlertType.CONFIRMATION);
+                        alert.setHeaderText(null);
+                        alert.setContentText("Achat effectué");
+                        alert.showAndWait();
+
+                        purchaseResetAll();
+                    }
+                }
+            }
         }
     }
 
@@ -1261,6 +1461,8 @@ public class DashboardController  implements Initializable {
                 Personne personne = client.getPersonne();
 
 
+
+
                 adresse.setNumero(Integer.parseInt(addClient_AdrNum.getText()));
                 //        addClient_AdrRue.getText(), addClient_AdrCP.getText(),
                 //        addClient_AdrVille.getText()
@@ -1317,5 +1519,100 @@ public class DashboardController  implements Initializable {
             ListPatient_TableView.setItems(clientDAO.findAll());
         }
     }
+
+    public void ListPatientPurchase(){
+        int num = ListPatient_TableView.getSelectionModel().getSelectedIndex();
+
+        Alert alert;
+
+        if (num < 0){
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setContentText("Selectionné un client dans la liste");
+            alert.showAndWait();
+        }
+        else{
+            purchase_ClientList();
+            ListPatient_form.setVisible(false);
+            purchase_from.setVisible(true);
+            purchase_ClientName.getSelectionModel().select(ListPatient_TableView.getSelectionModel().getSelectedItem());
+        }
+
+    }
+
+    public void purchase_ClientList(){
+        ObservableList<Client> listClient = clientDAO.findAll();
+        purchase_ClientName.setItems(listClient);
+
+    }
+
+    public void purchaseResetAll(){
+        purchaseResetFilter();
+        purchaseResetCart();
+        purchase_Quantity.setText("");
+
+        purchase_ClientName.getSelectionModel().select(-1);
+
+    }
+
+    public void purchaseResetCart(){
+        panier = new Panier(0,FXCollections.observableArrayList());
+        purchase_CartTableView.setItems(null);
+    }
+
+    public void purchaseOrd(){
+        if (purchase_Ord.isSelected()){
+            purchase_NumOrd.setVisible(true);
+            purchase_NumOrd.setText("");
+            purchaselblOrd.setVisible(true);
+
+        }
+        if (purchase_NoOrd.isSelected()){
+            purchase_NumOrd.setVisible(false);
+            purchaselblOrd.setVisible(false);
+        }
+    }
+
+
+    private ObservableList<Ordonnance> ListOrdonannce;
+
+    public void ListOrdonnanceShowList(){
+
+
+        // affichage de la liste de Client
+        ListOrdonannce = ordonnanceDAO.findAll();
+
+        // remplissage des colonnes en fonction des getter+propriété de l'objet Client
+        ListOrdonnance_col_ID.setCellValueFactory(new PropertyValueFactory<>("idClient"));
+        ListOrdonnance_col_Nom.setCellValueFactory(new PropertyValueFactory<>("nom"));
+        ListOrdonnance_col_Prenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
+        ListOrdonnance_col_NumOrd.setCellValueFactory(new PropertyValueFactory<>("NumOrd"));
+        ListOrdonnance_col_Meds.setCellValueFactory(new PropertyValueFactory<>("ListMeds"));
+        ListOrdonnance_col_Medecin.setCellValueFactory(new PropertyValueFactory<>("nomMed"));
+        ListOrdonnance_col_Mutuelle.setCellValueFactory(new PropertyValueFactory<>("nomMut"));
+
+        ListOrdonnance_TableView.setItems(ListOrdonannce);
+    }
+
+
+    private ObservableList<Achat> ListAchat;
+    public void ListAchatShowList(){
+
+
+        // affichage de la liste de Client
+        ListAchat = achatDAO.findAll();
+
+        // remplissage des colonnes en fonction des getter+propriété de l'objet Client
+        HistoriqueAchat_col_ID.setCellValueFactory(new PropertyValueFactory<>("id"));
+        HistoriqueAchat_col_Nom.setCellValueFactory(new PropertyValueFactory<>("nom"));
+        HistoriqueAchat_col_Prenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
+        HistoriqueAchat_col_Ord.setCellValueFactory(new PropertyValueFactory<>("Ord"));
+        HistoriqueAchat_col_Meds.setCellValueFactory(new PropertyValueFactory<>("ListMeds"));
+        HistoriqueAchat_col_Mutuelle.setCellValueFactory(new PropertyValueFactory<>("nomMut"));
+
+        HistoriqueAchat_TableView.setItems(ListAchat);
+    }
+
+
 }
 

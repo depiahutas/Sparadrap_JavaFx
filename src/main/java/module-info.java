@@ -9,6 +9,7 @@ module sparadrap.sparadrap_javafx {
 
     opens classMetier.sante to javafx.base;
     opens classMetier.personne to javafx.base;
+    opens classMetier.gestion to javafx.base;
 
     opens sparadrap.sparadrap_javafx to javafx.fxml;
     exports sparadrap.sparadrap_javafx;

@@ -136,4 +136,9 @@ public class Client{
     public String getNomMed(){
         return "Dr. "+medecin.getPersonne().getNom();
     }
+
+    @Override
+    public String toString() {
+        return  personne.getNom() +" "+personne.getPrenom();
+    }
 }
