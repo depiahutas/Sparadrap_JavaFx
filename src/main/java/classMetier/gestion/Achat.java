@@ -132,4 +132,8 @@ public class Achat {
         return client.getMutuelle().getNom();
     }
 
+    public float getPrixTot(){
+        return prix;
+    }
+
 }

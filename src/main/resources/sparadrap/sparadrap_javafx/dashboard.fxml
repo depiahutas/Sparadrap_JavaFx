@@ -274,7 +274,7 @@
                                           <Font name="System Bold" size="14.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="ListPatient_Search" layoutX="73.0" layoutY="22.0" prefHeight="25.0" prefWidth="233.0" />
+                                    <TextField fx:id="ListPatient_Search" layoutX="73.0" layoutY="22.0" onKeyPressed="#ListClientSearch" prefHeight="25.0" prefWidth="233.0" />
                                  </children>
                                  <styleClass>
                                     <String fx:value="whithe-bg" />
@@ -384,8 +384,8 @@
                                           <Font name="System Bold" size="14.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="ListOrdonnance_search" layoutX="73.0" layoutY="22.0" prefHeight="25.0" prefWidth="233.0" />
-                                    <Button fx:id="ListPatient_Btn_Infos1" layoutX="698.0" layoutY="556.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="90.0" styleClass="add-btn" stylesheets="@DashboardDesign.css" text="More Infos" />
+                                    <TextField fx:id="ListOrdonnance_search" layoutX="73.0" layoutY="22.0" onAction="#ListOrdonnanceSearch" onKeyPressed="#ListOrdonnanceSearch" prefHeight="25.0" prefWidth="233.0" />
+                                    <Button fx:id="ListPatient_Btn_Infos1" layoutX="675.0" layoutY="556.0" mnemonicParsing="false" onAction="#ListOrdonnancePDF" prefHeight="26.0" prefWidth="113.0" styleClass="add-btn" stylesheets="@DashboardDesign.css" text="Générer PDF" />
                                  </children>
                                  <styleClass>
                                     <String fx:value="whithe-bg" />
@@ -406,8 +406,9 @@
                                                 <TableColumn fx:id="HistoriqueAchat_col_Nom" prefWidth="85.0" text="Nom" />
                                                 <TableColumn fx:id="HistoriqueAchat_col_Prenom" prefWidth="109.0" text="Prenom" />
                                                 <TableColumn fx:id="HistoriqueAchat_col_Ord" prefWidth="59.0" text="N°Ord" />
-                                                <TableColumn fx:id="HistoriqueAchat_col_Meds" prefWidth="325.0" text="Meds" />
-                                                <TableColumn fx:id="HistoriqueAchat_col_Mutuelle" prefWidth="133.0" text="Mutuelle" />
+                                                <TableColumn fx:id="HistoriqueAchat_col_PrixTot" prefWidth="76.0" text="Prix Total" />
+                                                <TableColumn fx:id="HistoriqueAchat_col_Meds" prefWidth="251.0" text="Meds" />
+                                                <TableColumn fx:id="HistoriqueAchat_col_Mutuelle" prefWidth="131.0" text="Mutuelle" />
                                              </columns>
                                           </TableView>
                                        </children>
@@ -417,7 +418,7 @@
                                           <Font name="System Bold" size="14.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="HistoriqueAchat_search" layoutX="73.0" layoutY="22.0" prefHeight="25.0" prefWidth="233.0" />
+                                    <TextField fx:id="HistoriqueAchat_search" layoutX="73.0" layoutY="22.0" onAction="#ListAchatSearch" onKeyPressed="#ListAchatSearch" prefHeight="25.0" prefWidth="233.0" />
                                     <Button fx:id="ListPatient_Btn_Infos11" layoutX="698.0" layoutY="556.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="90.0" styleClass="add-btn" stylesheets="@DashboardDesign.css" text="More Infos" />
                                  </children>
                                  <styleClass>

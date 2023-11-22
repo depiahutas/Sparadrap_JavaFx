@@ -11,6 +11,7 @@ import DAO.sante.CategorieMedicamentDAO;
 import DAO.sante.MedicamentDAO;
 import DAO.sante.MutuelleDAO;
 import DAO.sante.OrdonnanceDAO;
+import classMetier.Util.FilePdf;
 import classMetier.Util.getData;
 import classMetier.gestion.Achat;
 import classMetier.gestion.Adresse;
@@ -414,6 +415,9 @@ public class DashboardController  implements Initializable {
 
     @FXML
     private TableColumn<?, ?> HistoriqueAchat_col_Prenom;
+
+    @FXML
+    private TableColumn<?, ?> HistoriqueAchat_col_PrixTot;
 
     @FXML
     private AnchorPane HistoriqueAchat_form;
@@ -1607,12 +1611,158 @@ public class DashboardController  implements Initializable {
         HistoriqueAchat_col_Nom.setCellValueFactory(new PropertyValueFactory<>("nom"));
         HistoriqueAchat_col_Prenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
         HistoriqueAchat_col_Ord.setCellValueFactory(new PropertyValueFactory<>("Ord"));
+        HistoriqueAchat_col_PrixTot.setCellValueFactory(new PropertyValueFactory<>("PrixTot"));
         HistoriqueAchat_col_Meds.setCellValueFactory(new PropertyValueFactory<>("ListMeds"));
         HistoriqueAchat_col_Mutuelle.setCellValueFactory(new PropertyValueFactory<>("nomMut"));
 
         HistoriqueAchat_TableView.setItems(ListAchat);
     }
 
+    public void ListOrdonnancePDF(){
+       String name = "";
+       String date = "";
+
+       int num = ListOrdonnance_TableView.getSelectionModel().getSelectedIndex();
+
+       Alert alert;
+
+       if (num < 0){
+           alert = new Alert(Alert.AlertType.ERROR);
+           alert.setHeaderText(null);
+           alert.setContentText("Selectionné dans la liste");
+           alert.showAndWait();
+       }
+       else {
+           Ordonnance ord = ListOrdonnance_TableView.getSelectionModel().getSelectedItem();
+           StringBuilder listMed = new StringBuilder();
+           name = ord.getClient().getNom() + " " + ord.getClient().getPrenom();
+           date = ord.getDate().replace("/", "-");
+           String titre = "Ordonnance du " + date + " " + name;
+           String medecin = ord.getMedecin().getPersonne().getNom() + " " + ord.getMedecin().getPersonne().getPrenom();
+
+           for (Medicament medicament : ord.getCompose().getListMedic()){
+               listMed.append("\n"+medicament.getNom());
+           }
+
+           try {
+               FilePdf.createPdf(titre, listMed.toString(), name, date, medecin);
+               FilePdf.openPdf(name,date);
+           }catch (Exception e){
+               e.printStackTrace();
+           }
+       }
+
+
+   }
+
+   public void ListOrdonnanceSearch(){
+       FilteredList<Ordonnance> filter = new FilteredList<>(ListOrdonannce, e-> true);
+
+       ListOrdonnance_search.textProperty().addListener((Observable,oldValue,newValue) -> {
+           filter.setPredicate(predicateOrd -> {
+               if ( newValue == null || newValue.isEmpty()){
+                   return true;
+               }
+               String searchKey = newValue.toLowerCase();
+
+               if (String.valueOf(predicateOrd.getId()).toLowerCase().contains(searchKey)){
+                   return true;
+               } else if (predicateOrd.getClient().getPrenom().toLowerCase().contains(searchKey)) {
+                   return true;
+               } else if (predicateOrd.getClient().getNom().toLowerCase().contains(searchKey)) {
+                   return true;
+               } else if (predicateOrd.getDate().toLowerCase().contains(searchKey)) {
+                   return true;
+               } else if (predicateOrd.getMedecin().getPersonne().getNom().toLowerCase().contains(searchKey)) {
+                   return true;
+               } else if (predicateOrd.getListMeds().toLowerCase().contains(searchKey)) {
+                   return true;
+               }
+               else {
+                   return false;
+               }
+           });
+       });
+
+       SortedList<Ordonnance> sortList = new SortedList<>(filter);
+       sortList.comparatorProperty().bind(ListOrdonnance_TableView.comparatorProperty());
+       ListOrdonnance_TableView.setItems(sortList);
+   }
+
+   public void ListClientSearch(){
+       FilteredList<Client> filter = new FilteredList<>(ListPatientList, e-> true);
+
+       ListPatient_Search.textProperty().addListener((Observable,oldValue,newValue) -> {
+           filter.setPredicate(predicateCli -> {
+               if ( newValue == null || newValue.isEmpty()){
+                   return true;
+               }
+               String searchKey = newValue.toLowerCase();
+
+               if (String.valueOf(predicateCli.getIdClient()).toString().toLowerCase().contains(searchKey)){
+                   return true;
+               } else if (predicateCli.getPrenom().toLowerCase().contains(searchKey)) {
+                   return true;
+               } else if (predicateCli.getNom().toLowerCase().contains(searchKey)) {
+                   return true;
+               } else if (predicateCli.getMail().toLowerCase().contains(searchKey)) {
+                   return true;
+               } else if (predicateCli.getMedecin().getPersonne().getPrenom().toLowerCase().contains(searchKey)) {
+                   return true;
+               } else if (predicateCli.getTel().toLowerCase().contains(searchKey)) {
+                   return true;
+               } else if (predicateCli.getMutuelle().getNom().toLowerCase().contains(searchKey)) {
+                   return true;
+               }
+               else {
+                   return false;
+               }
+           });
+       });
+
+       SortedList<Client> sortList = new SortedList<>(filter);
+       sortList.comparatorProperty().bind(ListPatient_TableView.comparatorProperty());
+       ListPatient_TableView.setItems(sortList);
+   }
+
+   public void ListAchatSearch(){
+       FilteredList<Achat> filter = new FilteredList<>(ListAchat, e-> true);
+
+       HistoriqueAchat_search.textProperty().addListener((Observable,oldValue,newValue) -> {
+           filter.setPredicate(predicateAch -> {
+               if ( newValue == null || newValue.isEmpty()){
+                   return true;
+               }
+               String searchKey = newValue.toLowerCase();
+
+               if (String.valueOf(predicateAch.getId()).toLowerCase().contains(searchKey)){
+                   return true;
+               } else if (predicateAch.getPrenom().toLowerCase().contains(searchKey)) {
+                   return true;
+               } else if (predicateAch.getNom().toLowerCase().contains(searchKey)) {
+                   return true;
+               } else if (predicateAch.getDate().toLowerCase().contains(searchKey)) {
+                   return true;
+               } else if (predicateAch.getListMeds().toLowerCase().contains(searchKey)) {
+                   return true;
+               } else if (predicateAch.getOrd() !=null) {
+                   if (predicateAch.getOrd().toLowerCase().contains(searchKey)) {
+                   return true;
+                   }
+                   else {
+                       return false;
+                   }
+               }
+               else {
+                   return false;
+               }
+           });
+       });
+
+       SortedList<Achat> sortList = new SortedList<>(filter);
+       sortList.comparatorProperty().bind(HistoriqueAchat_TableView.comparatorProperty());
+       HistoriqueAchat_TableView.setItems(sortList);
+   }
 
 }
 

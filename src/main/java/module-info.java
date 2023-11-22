@@ -6,6 +6,7 @@ module sparadrap.sparadrap_javafx {
     requires com.dlsc.formsfx;
     requires java.sql;
     requires java.desktop;
+    requires itextpdf;
 
     opens classMetier.sante to javafx.base;
     opens classMetier.personne to javafx.base;
