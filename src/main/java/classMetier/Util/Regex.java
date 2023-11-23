@@ -77,4 +77,19 @@ public class Regex {
     public static String getRegexAgr(){
         return regexAgr;
     }
+
+    static final String RegexMed="^[a-zA-ZÀ-ÖØ-öø-ÿ]+$";
+
+    public static String getRegexNomMed() {
+        return RegexMed;
+    }
+    static final String RegexPrix="d{1,3}(?:[.,]\\d{3})*(?:[.,]\\d{2})";
+    public static String getRegexPrix() {
+        return RegexPrix;
+    }
+
+    static final String RegexInt="^[0-9]*$";
+    public static String getRegexInt() {
+        return RegexInt;
+    }
 }

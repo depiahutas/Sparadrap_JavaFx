@@ -12,6 +12,7 @@ import DAO.sante.MedicamentDAO;
 import DAO.sante.MutuelleDAO;
 import DAO.sante.OrdonnanceDAO;
 import classMetier.Util.FilePdf;
+import classMetier.Util.Regex;
 import classMetier.Util.getData;
 import classMetier.gestion.Achat;
 import classMetier.gestion.Adresse;
@@ -428,6 +429,36 @@ public class DashboardController  implements Initializable {
     @FXML
     private Button HistoriqueAchat_btn;
 
+    @FXML
+    private Label AddClient_lblErreur_CP;
+
+    @FXML
+    private Label AddClient_lblErreur_Date;
+
+    @FXML
+    private Label AddClient_lblErreur_Mail;
+
+    @FXML
+    private Label AddClient_lblErreur_Nom;
+
+    @FXML
+    private Label AddClient_lblErreur_Num;
+
+    @FXML
+    private Label AddClient_lblErreur_NumSecu;
+
+    @FXML
+    private Label AddClient_lblErreur_Rue;
+
+    @FXML
+    private Label AddClient_lblErreur_Tel;
+
+    @FXML
+    private Label AddClient_lblErreur_Ville;
+
+    @FXML
+    private Label AddClient_lblErreur_prenom;
+
 
 
     private double x=0;
@@ -702,8 +733,17 @@ public class DashboardController  implements Initializable {
             alert.setHeaderText(null);
             alert.setContentText("Please fill all blank fields");
             alert.showAndWait();
-        }
-        else {
+        } else if (add_productName.getText().matches(Regex.getRegexNomMed())
+                || add_price.getText().matches(Regex.getRegexPrix()) || add_date.getText().matches(Regex.getRegexDate())
+                || add_qte.getText().matches(Regex.getRegexInt()) ) {
+            alert = new Alert(Alert.AlertType.ERROR);
+
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Please fill correctly all fields");
+            alert.showAndWait();
+
+        } else {
                 Medicament medicament;
 
                 if ( uri==null || uri.isEmpty()) {
@@ -1279,46 +1319,83 @@ public class DashboardController  implements Initializable {
         StringBuilder msgAlert = new StringBuilder();
         if (addClient_PerNom.getText().isEmpty()){
             msgAlert.append("\n- Nom");
+        } else if (!addClient_PerNom.getText().matches(Regex.getRegexPrenom())) {
+            AddClient_lblErreur_Nom.setVisible(true);
+        }else {
+            AddClient_lblErreur_Nom.setVisible(false);
         }
 
         if (addClient_PerPrenom.getText().isEmpty()){
             msgAlert.append("\n- Prénom");
+        } else if (!addClient_PerPrenom.getText().matches(Regex.getRegexPrenom())) {
+            AddClient_lblErreur_prenom.setVisible(true);
+        }else {
+            AddClient_lblErreur_prenom.setVisible(false);
         }
 
         if (addClient_PerMail.getText().isEmpty()){
             msgAlert.append("\n- Mail");
+        } else if (!addClient_PerMail.getText().matches(Regex.getRegexMail())) {
+
+            AddClient_lblErreur_Mail.setVisible(true);
+        }else {
+            AddClient_lblErreur_Mail.setVisible(false);
         }
 
         if (addClient_PerTel.getText().isEmpty()){
             msgAlert.append("\n- Teléphone");
-        }
-
-        if (addClient_PerPrenom.getText().isEmpty()){
-            msgAlert.append("\n- Prénom");
+        } else if (!addClient_PerTel.getText().matches(Regex.getRegexTel())) {
+            AddClient_lblErreur_Tel.setVisible(true);
+        }else {
+            AddClient_lblErreur_Tel.setVisible(false);
         }
 
         if (addClient_AdrNum.getText().isEmpty()){
             msgAlert.append("\n- Numéro");
+        } else if (!addClient_AdrNum.getText().matches(Regex.getRegexNumeroAdresse())) {
+            AddClient_lblErreur_Num.setVisible(true);
+        }else {
+            AddClient_lblErreur_Num.setVisible(false);
         }
 
         if (addClient_AdrRue.getText().isEmpty()){
             msgAlert.append("\n- Rue");
+        } else if (!addClient_AdrRue.getText().matches(Regex.getRegexNomAdresse())) {
+            AddClient_lblErreur_Rue.setVisible(true);
+        }else {
+            AddClient_lblErreur_Rue.setVisible(false);
         }
 
         if (addClient_AdrCP.getText().isEmpty()){
             msgAlert.append("\n- Code Postal");
+        } else if (!addClient_AdrCP.getText().matches(Regex.getRegexCodePostal())) {
+            AddClient_lblErreur_CP.setVisible(true);
+        }else {
+            AddClient_lblErreur_CP.setVisible(false);
         }
 
         if (addClient_AdrVille.getText().isEmpty()){
             msgAlert.append("\n- Ville");
+        } else if (!addClient_AdrVille.getText().matches(Regex.getRegexVille())) {
+            AddClient_lblErreur_Ville.setVisible(false);
+        }else {
+            AddClient_lblErreur_Ville.setVisible(false);
         }
 
         if (addClient_CliDateNaiss.getText().isEmpty()){
             msgAlert.append("\n- Date de Naissance");
+        }else if (!addClient_CliDateNaiss.getText().matches(Regex.getRegexDateNaiss())){
+            AddClient_lblErreur_Date.setVisible(true);
+        }else {
+            AddClient_lblErreur_Date.setVisible(false);
         }
 
         if (addClient_CliNumSecu.getText().isEmpty()){
             msgAlert.append("\n- Numéro de Sécurité Social");
+        } else if (!addClient_CliNumSecu.getText().matches(Regex.getRegexNumSecu())) {
+            AddClient_lblErreur_NumSecu.setVisible(true);
+        }else {
+            AddClient_lblErreur_NumSecu.setVisible(false);
         }
 
         if (addClient_Med.getSelectionModel().getSelectedIndex()==-1){
@@ -1391,6 +1468,8 @@ public class DashboardController  implements Initializable {
         addClient_ResetBtn.setVisible(true);
         addClient_updateClient.setVisible(false);
 
+
+        hideAllErrorLbl();
         AddClientMedList();
         AddClientMutList();
         addClientReset();
@@ -1763,6 +1842,21 @@ public class DashboardController  implements Initializable {
        sortList.comparatorProperty().bind(HistoriqueAchat_TableView.comparatorProperty());
        HistoriqueAchat_TableView.setItems(sortList);
    }
+
+    public void hideAllErrorLbl(){
+
+        AddClient_lblErreur_CP.setVisible(false);
+        AddClient_lblErreur_Date.setVisible(false);
+        AddClient_lblErreur_Mail.setVisible(false);
+        AddClient_lblErreur_Nom.setVisible(false);
+        AddClient_lblErreur_Num.setVisible(false);
+        AddClient_lblErreur_NumSecu.setVisible(false);
+        AddClient_lblErreur_Rue.setVisible(false);
+        AddClient_lblErreur_Tel.setVisible(false);
+        AddClient_lblErreur_Ville.setVisible(false);
+        AddClient_lblErreur_prenom.setVisible(false);
+    }
+
 
 }
 
