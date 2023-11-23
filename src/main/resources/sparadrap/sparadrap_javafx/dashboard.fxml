@@ -69,7 +69,7 @@
                <center>
                   <AnchorPane prefHeight="622.0" prefWidth="819.0" BorderPane.alignment="CENTER">
                      <children>
-                        <AnchorPane fx:id="dashboard_form" layoutX="-2.0" prefHeight="622.0" prefWidth="830.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="dashboard_form" layoutX="-2.0" prefHeight="622.0" prefWidth="830.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="17.0" layoutY="14.0" prefHeight="331.0" prefWidth="797.0" stylesheets="@DashboardDesign.css">
                                  <children>
@@ -118,7 +118,7 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="add_form" layoutX="109.0" layoutY="60.0" prefHeight="622.0" prefWidth="829.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="add_form" layoutX="109.0" layoutY="60.0" prefHeight="622.0" prefWidth="829.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="16.0" layoutY="14.0" prefHeight="240.0" prefWidth="801.0" stylesheets="@DashboardDesign.css" AnchorPane.bottomAnchor="368.0" AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="14.0">
                                  <styleClass>
