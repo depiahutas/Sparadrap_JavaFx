@@ -1,0 +1,10 @@
+module:sparadrap.sparadrap_javafx
+classMetier.gestion
+classMetier.personne
+classMetier.sante
+classMetier.Util
+DAO
+DAO.gestion
+DAO.personne
+DAO.sante
+sparadrap.sparadrap_javafx
