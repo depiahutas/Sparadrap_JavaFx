@@ -45,6 +45,11 @@ public class HelloController {
     private double x = 0;
     private double y = 0;
 
+    /**
+     * Vérifie si login correspond a quelqu'un en BDD
+     * si false affiche message d'erreur
+     * sinon affiche fenetre Dashboard
+     */
     public void checkLogin() throws IOException {
 
         if (username.getText().isEmpty() || password.getText().isEmpty()){
@@ -64,6 +69,9 @@ public class HelloController {
             Scene scene = new Scene(root);
 
 
+            /**
+             * Param fenetres quand bouger
+             */
             root.setOnMousePressed((mouseEvent -> {
                 x = mouseEvent.getSceneX();
                 y = mouseEvent.getY();

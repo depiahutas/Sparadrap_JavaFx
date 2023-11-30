@@ -468,7 +468,9 @@ public class DashboardController  implements Initializable {
 
     float prixTot=0;
 
-    // déconnexion
+    /**
+     *  Action déconnexion
+      */
     public void logout(){
 
         try {
@@ -517,8 +519,10 @@ public class DashboardController  implements Initializable {
     }
 
 
-    // action boutton menu
-    // change le form affiché
+    /**
+     * action boutton menu
+     * change le form affiché
+     */
     public void switch_form(ActionEvent event){
         // affichage du form dashboard + boutton mit en contraste
         if (event.getSource() == dashboard_btn){
@@ -654,13 +658,18 @@ public class DashboardController  implements Initializable {
     }
 
 
-        // boutton reduit la fenetre
-        public void minimize(){
+    /**
+     * boutton reduit la fenetre
+     */
+    public void minimize(){
             Stage stage = (Stage)main_form.getScene().getWindow();
             stage.setIconified(true);
         }
 
-        // boutton quitter ferme application
+    /**
+     * boutton quitter ferme application
+      */
+
         public  void close(){
             System.exit(0);
         }
@@ -674,7 +683,10 @@ public class DashboardController  implements Initializable {
     Panier panier;
 
 
-    // remplissage tableau gestion medicament
+    /**
+     *  remplissage tableau gestion medicament
+      */
+
     public void addMedicineShowList(){
         addMedicineList = medicamentDAO.addMedecineList();
 
@@ -692,7 +704,9 @@ public class DashboardController  implements Initializable {
 
     private Image image;
 
-    // remplissage automatique lorsque sélection médicament dans tableau
+    /**
+     * remplissage automatique lorsque sélection médicament dans tableau
+     */
     public void addMedicineSelect(){
         Medicament medicament = addMedicines_tableView.getSelectionModel().getSelectedItem();
         int num = addMedicines_tableView.getSelectionModel().getSelectedIndex();
@@ -717,7 +731,9 @@ public class DashboardController  implements Initializable {
         getData.path=medicament.getImage();
     }
 
-    // Ajout d'un médicament dans la base de données
+    /**
+     * Ajout d'un médicament dans la base de données
+     */
     public void addMedicinesAdd(){
         String uri = getData.path;
 
@@ -775,7 +791,9 @@ public class DashboardController  implements Initializable {
 
     }
 
-    // insertion d'image  -- non obligatoire
+    /**
+     * insertion d'image  -- non obligatoire
+     */
     public void addMedicineInsertImage(){
         FileChooser open = new FileChooser();
         open.setTitle("Import image File");
@@ -793,14 +811,20 @@ public class DashboardController  implements Initializable {
     }
 
 
-    // initialisation de la page
+    /**
+     * initialisation de la page
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         addMedicineShowList();
         addListType();
     }
 
-    // remplissage combobox type de médicament
+    /**
+     * remplissage combobox type de médicament
+     */
     public void addListType(){
 
         List<CategorieMedicament> listT = new ArrayList<>();
@@ -812,8 +836,9 @@ public class DashboardController  implements Initializable {
     }
 
 
-
-    // vide les champs d'ajout de médicament
+    /**
+     * vide les champs d'ajout de médicament
+     */
     public void addMedicineReset(){
         add_medicineID.setText("");
         add_productName.setText("");
@@ -827,7 +852,9 @@ public class DashboardController  implements Initializable {
     }
 
 
-    // mise a jour d'un médicament
+    /**
+     * mise a jour d'un médicament
+     */
     public void addMedicineUpdate(){
         String uri = getData.path;
         Medicament medicament;
@@ -877,8 +904,10 @@ public class DashboardController  implements Initializable {
     }
 
 
-    // supression du medicament sélectionner
-    // demande confirmation avant supression
+    /**
+     * supression du medicament sélectionner
+     * demande confirmation avant supression
+     */
     public void addMedicineDelete(){
         String uri = getData.path;
 
@@ -929,7 +958,9 @@ public class DashboardController  implements Initializable {
         }
     }
 
-    // tri du tableau en fonction du champ de recherche
+    /**
+     * tri du tableau en fonction du champ de recherche
+     */
     public void addMedicineSearch(){
 
         FilteredList<Medicament> filter = new FilteredList<>(addMedicineList, e-> true);
@@ -964,12 +995,15 @@ public class DashboardController  implements Initializable {
     }
 
 
-
-    // formulaire purchase
+    /**
+     * formulaire purchase
+     */
 
     private ObservableList<Medicament> purchaseMedicineList = medicamentDAO.addMedecineList();
 
-    // affichage list médicament en fonction de la catégorie sélectionné
+    /**
+     * affichage list médicament en fonction de la catégorie sélectionné
+     */
     public void purchaseType(){
 
         if (puchase_type.getSelectionModel().getSelectedItem()!=null) {
@@ -981,7 +1015,9 @@ public class DashboardController  implements Initializable {
         purchaseMedicineShowList(purchaseMedicineList);
     }
 
-    // remplissage combobox catégorie médicament
+    /**
+     * remplissage combobox catégorie médicament
+     */
     public void purchaseListType()
     {
 
@@ -993,7 +1029,9 @@ public class DashboardController  implements Initializable {
         puchase_type.setItems(list);
     }
 
-    // filtre recherche médicament
+    /**
+     * filtre recherche médicament
+     */
     public void purchaseContain(){
         FilteredList<Medicament> filter = new FilteredList<>(purchaseMedicineList, e-> true);
 
@@ -1028,7 +1066,10 @@ public class DashboardController  implements Initializable {
     }
 
 
-    // affichage liste médicament
+    /**
+     * affichage liste médicament
+     * @param List
+     */
     public void purchaseMedicineShowList(ObservableList<Medicament> List){
 
         if (List==null){
@@ -1046,7 +1087,9 @@ public class DashboardController  implements Initializable {
     }
 
 
-    // reset filtre recherche médicament
+    /**
+     * reset filtre recherche médicament
+     */
     public void purchaseResetFilter(){
         purchaseMedicineList = medicamentDAO.addMedecineList();
 
@@ -1056,7 +1099,9 @@ public class DashboardController  implements Initializable {
     }
 
 
-    // action ajouter au panier
+    /**
+     * action ajouter au panier
+     */
     public void purchaseAddToCart(){
         Alert alert;
 
@@ -1120,7 +1165,9 @@ public class DashboardController  implements Initializable {
     }
 
 
-    // action supression article du panier
+    /**
+     * action supression article du panier
+     */
     public void purchaseRemoveFromCart() {
         Alert alert;
 
@@ -1162,7 +1209,11 @@ public class DashboardController  implements Initializable {
 
     AchatDAO achatDAO = new AchatDAO();
     OrdonnanceDAO ordonnanceDAO = new OrdonnanceDAO();
-    // Action boutton effectuer achat
+
+    /**
+     * Action boutton effectuer achat
+     * @throws ParseException
+     */
     public void purchasePay() throws ParseException {
         Alert alert;
 
@@ -1237,7 +1288,9 @@ public class DashboardController  implements Initializable {
     private ObservableList<Client> ListPatientList;
     private ClientDAO clientDAO = new ClientDAO();
 
-    // affichage de la liste de Client
+    /**
+     * affichage de la liste de Client
+     */
     public void ListPatientShowList(){
         ListPatientList = clientDAO.findAll();
 
@@ -1256,7 +1309,10 @@ public class DashboardController  implements Initializable {
 
     AdresseDAO adresseDAO= new AdresseDAO();
     personneDAO personneDAO = new personneDAO();
-    // Action boutton creation client
+
+    /**
+     * Action boutton creation client
+     */
     public  void createClient(){
         Alert alert;
 
@@ -1312,8 +1368,12 @@ public class DashboardController  implements Initializable {
         }
     }
 
-    // Verifie que les champs sont remplis
-    // A ajouter verification avec regex
+
+    /**
+     * Verifie que les champs sont remplis
+     * A ajouter verification avec regex
+     * @return
+     */
     public StringBuilder checkFields(){
 
         StringBuilder msgAlert = new StringBuilder();
@@ -1410,7 +1470,9 @@ public class DashboardController  implements Initializable {
     }
 
 
-    // remplissage combobox mutuelle
+    /**
+     * remplissage combobox mutuelle
+     */
     MutuelleDAO mutuelleDAO = new MutuelleDAO();
     public void AddClientMutList(){
         List<Mutuelle> listT = new ArrayList<>();
@@ -1421,7 +1483,9 @@ public class DashboardController  implements Initializable {
         addClient_Mut.setItems(list);
     }
 
-    // remplissage combobox medecin
+    /**
+     * remplissage combobox medecin
+     */
     MedecinDAO medecinDAO = new MedecinDAO();
     public void AddClientMedList(){
         List<Medecin> listT = new ArrayList<>();
@@ -1433,7 +1497,9 @@ public class DashboardController  implements Initializable {
     }
 
 
-    // réinitialise tout les champs
+    /**
+     * réinitialise tout les champs de Ajout Client
+     */
     public void addClientReset(){
         addClient_PerNom.setText("");
         addClient_PerPrenom.setText("");
@@ -1453,12 +1519,18 @@ public class DashboardController  implements Initializable {
     }
 
 
+    /**
+     * Retour a la list de Client
+     */
     public void addClientRetun(){
         addClient_form.setVisible(false);
         ListPatient_form.setVisible(true);
         ListPatient_btn.setStyle("-fx-background-color:linear-gradient(to bottom right, #41b170, #8a418c);");
     }
 
+    /**
+     * Affichage Panel Ajout Client
+     */
     public void ListPatientAddClient(){
         ListPatient_form.setVisible(false);
         addClient_form.setVisible(true);
@@ -1477,6 +1549,9 @@ public class DashboardController  implements Initializable {
     }
 
 
+    /**
+     * Affichae formClient avec champs completer automatiquement selon Client sélectionner
+     */
     public void ListPatientUpdateClient(){
         int num = ListPatient_TableView.getSelectionModel().getSelectedIndex();
 
@@ -1525,6 +1600,9 @@ public class DashboardController  implements Initializable {
     }
 
 
+    /**
+     * Action Mise a jour Client
+     */
     public void updateClient(){
             Alert alert;
 
@@ -1580,6 +1658,9 @@ public class DashboardController  implements Initializable {
     }
 
 
+    /**
+     * Suppr Patient sélectionner
+     */
     public void ListPatientDelete(){
 
         int num = ListPatient_TableView.getSelectionModel().getSelectedIndex();
@@ -1603,6 +1684,9 @@ public class DashboardController  implements Initializable {
         }
     }
 
+    /**
+     * Affihchage Panel Achat avec client Préselectionner
+     */
     public void ListPatientPurchase(){
         int num = ListPatient_TableView.getSelectionModel().getSelectedIndex();
 
@@ -1623,6 +1707,9 @@ public class DashboardController  implements Initializable {
 
     }
 
+    /**
+     * Remplissage Combobox Client
+     */
     public void purchase_ClientList(){
         ObservableList<Client> listClient = clientDAO.findAll();
         purchase_ClientName.setItems(listClient);
@@ -1697,6 +1784,9 @@ public class DashboardController  implements Initializable {
         HistoriqueAchat_TableView.setItems(ListAchat);
     }
 
+    /**
+     * Action génération et ouverture PDF Ordonnance
+     */
     public void ListOrdonnancePDF(){
        String name = "";
        String date = "";
@@ -1843,6 +1933,9 @@ public class DashboardController  implements Initializable {
        HistoriqueAchat_TableView.setItems(sortList);
    }
 
+    /**
+     * Reset tous les message d'erreur du formulaire Ajout Client
+     */
     public void hideAllErrorLbl(){
 
         AddClient_lblErreur_CP.setVisible(false);

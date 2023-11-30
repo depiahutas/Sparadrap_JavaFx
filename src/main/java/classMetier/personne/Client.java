@@ -6,6 +6,8 @@ import classMetier.sante.Mutuelle;
 import java.security.PrivateKey;
 import java.util.regex.Pattern;
 
+
+
 public class Client{
     private int idClient;
     private Personne personne;

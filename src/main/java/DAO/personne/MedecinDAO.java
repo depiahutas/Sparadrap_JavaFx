@@ -16,7 +16,7 @@ public class MedecinDAO extends DAO<Medecin> {
 
         StringBuilder sqlInsertMedecin = new StringBuilder();
         sqlInsertMedecin.append("insert into Medecin ");
-        sqlInsertMedecin.append("(med_id,med_per,med_numAgr)");
+        sqlInsertMedecin.append("(med_id,med_per,med_num_agr)");
         sqlInsertMedecin.append("values (null,?,?)");
 
         boolean requetOK = false;
@@ -62,7 +62,7 @@ public class MedecinDAO extends DAO<Medecin> {
 
         StringBuilder sqlUpdateMedecin = new StringBuilder();
         sqlUpdateMedecin.append("update medecin ");
-        sqlUpdateMedecin.append("set med_numAgr = ?");
+        sqlUpdateMedecin.append("set med_num_agr = ?");
         sqlUpdateMedecin.append("where med_id=?");
 
         boolean requetOK = false;
@@ -101,7 +101,7 @@ public class MedecinDAO extends DAO<Medecin> {
 
                 return new Medecin(resultSet.getInt("med_id"),
                         personneDAO.find(resultSet.getInt("med_per")),
-                        resultSet.getString("med_numAgr")
+                        resultSet.getString("med_num_agr")
                 );
             }
 
@@ -132,7 +132,7 @@ public class MedecinDAO extends DAO<Medecin> {
 
                 listMedecin.add(new Medecin(resultSet.getInt("med_id"),
                         personneDAO.find(resultSet.getInt("med_per")),
-                        resultSet.getString("med_numAgr")
+                        resultSet.getString("med_num_agr")
                 ));
             }
 
@@ -166,7 +166,7 @@ public class MedecinDAO extends DAO<Medecin> {
 
                 m = new Medecin(resultSet.getInt("med_id"),
                         personneDAO.find(resultSet.getInt("med_per")),
-                        resultSet.getString("med_numAgr")
+                        resultSet.getString("med_num_agr")
                 );
             }
 

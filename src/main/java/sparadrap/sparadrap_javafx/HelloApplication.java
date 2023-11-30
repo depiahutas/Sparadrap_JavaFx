@@ -16,6 +16,9 @@ public class HelloApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        /**
+         * fenetre d'acceuil
+         */
         Parent root = FXMLLoader.load(getClass().getResource("hello-view.fxml"));
 
 
